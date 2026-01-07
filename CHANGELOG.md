@@ -5,6 +5,21 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-01-07
+
+### Major Changes
+
+- **Complete Architecture Overhaul**: Transformed from a simple CLI tool into a modern, enterprise-grade web application
+- **Technology Stack Migration**: Migrated from basic Node.js to Next.js 16, React 19, TypeScript, and Tailwind CSS
+- **Containerization**: Added full Docker support with multi-stage builds and production-ready deployment
+- **Browser Automation**: Integrated Puppeteer with stealth plugins and connection pooling for undetectable screenshot capture
+- **User Interface**: Created a dark, ninja-themed web interface with real-time screenshot generation
+- **API Development**: Built RESTful API endpoints with proper error handling, validation, and correlation IDs
+- **Security Enhancements**: Implemented CSP, SSRF protection, rate limiting, and comprehensive input validation
+- **Performance Optimization**: Added browser connection pooling, service workers, and advanced caching mechanisms
+- **Accessibility Compliance**: Achieved WCAG 2.1 AA compliance with screen reader support and keyboard navigation
+- **Monitoring & Logging**: Integrated structured logging, performance monitoring, and error boundaries
+
 ## [1.2.3] - 2026-01-07
 
 ### Added
