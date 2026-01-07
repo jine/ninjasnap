@@ -1,6 +1,12 @@
 # 🥷 NinjaSnap
 
-A stealthy web screenshot tool with ninja-like precision, built with Next.js, React 19, TypeScript, and Tailwind CSS. Take undetectable screenshots of any website through a dark, ninja-themed interface with enterprise-grade performance, accessibility, and modern React features.
+# 🥷 NinjaSnap
+
+**Enterprise-grade web screenshot capture with ninja-like stealth and precision.**
+
+NinjaSnap is a modern web application that captures undetectable screenshots of any website through an elegant, dark-themed interface. Built with cutting-edge technologies including React 19, Next.js 16, and TypeScript, it delivers enterprise-level performance, security, and accessibility in a sleek, ninja-inspired package.
+
+Whether you need high-fidelity website captures, automated testing screenshots, or reliable visual documentation, NinjaSnap provides the stealth, speed, and sophistication of a digital ninja. 🥷⚡
 
 **Key Achievements:**
 
