@@ -32,16 +32,11 @@ export default function RootLayout({
         <style
           dangerouslySetInnerHTML={{
             __html: `
-            /* Font loading optimization */
-            @font-face {
-              font-family: 'Inter';
-              font-style: normal;
-              font-weight: 400;
-              font-display: swap;
-              src: url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2') format('woff2');
-            }
+            /* Noto Sans font for ninja theme */
             body {
-              font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+              font-family: 'Noto Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+              background-color: #0A0A0A;
+              color: #FFFFFF;
             }
 
             /* Critical above-the-fold styles */
@@ -93,8 +88,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-gray-900 min-h-screen text-white">
-        <Suspense fallback={<div className="min-h-screen bg-gray-900" />}>
+      <body className="bg-[#0A0A0A] min-h-screen text-[#FFFFFF]">
+        <Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}>
           <ErrorBoundary>{children}</ErrorBoundary>
           <ServiceWorkerRegistration />
         </Suspense>

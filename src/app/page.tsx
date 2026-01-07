@@ -114,20 +114,30 @@ export default function Home() {
 
   return (
     <main
-      className="max-w-md mx-auto mt-20 p-6 bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-xl shadow-2xl border border-gray-700/50 backdrop-blur-sm"
+      className="max-w-md mx-auto mt-20 p-6 bg-[#1A1A1A] rounded-xl shadow-2xl border border-[#808080]/30 backdrop-blur-sm"
       role="main"
     >
       <header className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl shadow-lg shadow-emerald-500/25 mb-4 animate-pulse">
-          <span className="text-3xl">🥷</span>
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-[#FF0000] rounded-2xl shadow-lg shadow-[#FF0000]/25 mb-4 animate-pulse">
+          <span className="text-3xl text-[#000000]">🥷</span>
         </div>
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 via-emerald-300 to-blue-400 bg-clip-text text-transparent mb-2">
+        <h1
+          className="text-3xl font-bold text-[#FFFFFF] mb-2"
+          style={{
+            fontFamily: "'Noto Sans', sans-serif",
+            letterSpacing: '0.5px',
+          }}
+        >
           NinjaSnap
         </h1>
-        <div className="h-1 w-20 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full mx-auto mb-4"></div>
-        <p className="text-gray-300 leading-relaxed" id="app-description">
+        <div className="h-1 w-20 bg-[#FF0000] rounded-full mx-auto mb-4"></div>
+        <p
+          className="text-[#CCCCCC] leading-relaxed text-sm"
+          id="app-description"
+          style={{ fontFamily: "'Noto Sans', sans-serif", lineHeight: '1.5' }}
+        >
           Capture website screenshots with{' '}
-          <span className="text-emerald-400 font-semibold">
+          <span className="text-[#00FF00] font-semibold">
             ninja-like precision
           </span>{' '}
           and stealth
@@ -151,12 +161,17 @@ export default function Home() {
         <div
           role="status"
           aria-live="polite"
-          className="mb-6 p-4 bg-gradient-to-r from-emerald-900/60 to-emerald-800/60 border border-emerald-500/30 rounded-xl text-emerald-200 backdrop-blur-sm shadow-lg shadow-emerald-500/10 animate-in slide-in-from-top-2 duration-300"
+          className="mb-6 p-4 bg-[#1A1A1A]/80 border border-[#00FF00]/30 rounded-xl text-[#00FF00] backdrop-blur-sm shadow-lg shadow-[#00FF00]/10 animate-in slide-in-from-top-2 duration-300"
           aria-label={`Notification: ${notification}`}
         >
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-            <span className="font-medium">{notification}</span>
+            <div className="w-2 h-2 bg-[#00FF00] rounded-full animate-pulse"></div>
+            <span
+              className="font-medium text-[#FFFFFF]"
+              style={{ fontFamily: "'Noto Sans', sans-serif" }}
+            >
+              {notification}
+            </span>
           </div>
         </div>
       )}
@@ -172,7 +187,8 @@ export default function Home() {
         <div>
           <label
             htmlFor="url-input"
-            className="block text-sm font-medium text-gray-300 mb-2"
+            className="block text-sm font-medium text-[#FFFFFF] mb-2"
+            style={{ fontFamily: "'Noto Sans', sans-serif", fontWeight: 400 }}
           >
             Website URL <span aria-label="required">*</span>
           </label>
@@ -184,21 +200,34 @@ export default function Home() {
             placeholder="Enter URL to capture..."
             required
             disabled={loading}
-            className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500/50 focus:bg-gray-700/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm"
+            className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#808080]/50 rounded-lg text-[#FFFFFF] placeholder-[#CCCCCC] focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000]/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            style={{
+              fontFamily: "'Noto Sans', sans-serif",
+              fontSize: '14px',
+              lineHeight: '1.5',
+            }}
             aria-describedby="url-help url-error"
             aria-required="true"
             aria-invalid={error ? 'true' : 'false'}
             autoComplete="url"
             autoFocus
           />
-          <p id="url-help" className="mt-1 text-sm text-gray-400">
+          <p
+            id="url-help"
+            className="mt-1 text-sm text-[#CCCCCC]"
+            style={{ fontFamily: "'Noto Sans', sans-serif", fontSize: '12px' }}
+          >
             Enter a valid website URL (e.g., https://example.com)
           </p>
           {error && (
             <p
               id="url-error"
-              className="mt-1 text-sm text-red-400"
+              className="mt-1 text-sm text-[#800080]"
               role="alert"
+              style={{
+                fontFamily: "'Noto Sans', sans-serif",
+                fontSize: '12px',
+              }}
             >
               {error}
             </p>
@@ -208,7 +237,8 @@ export default function Home() {
         <div>
           <label
             htmlFor="resolution-select"
-            className="block text-sm font-medium text-gray-300 mb-2"
+            className="block text-sm font-medium text-[#FFFFFF] mb-2"
+            style={{ fontFamily: "'Noto Sans', sans-serif", fontWeight: 400 }}
           >
             Screenshot Resolution
           </label>
@@ -217,7 +247,8 @@ export default function Home() {
             value={resolution}
             onChange={handleResolutionChange}
             disabled={loading}
-            className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500/50 focus:bg-gray-700/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm appearance-none"
+            className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#808080]/50 rounded-lg text-[#FFFFFF] focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000]/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 appearance-none"
+            style={{ fontFamily: "'Noto Sans', sans-serif", fontSize: '14px' }}
             aria-describedby="resolution-help"
             aria-label="Select screenshot resolution"
           >
@@ -228,7 +259,11 @@ export default function Home() {
             <option value="768x1024">768×1024 (Tablet Portrait)</option>
             <option value="375x667">375×667 (Mobile)</option>
           </select>
-          <p id="resolution-help" className="mt-1 text-sm text-gray-400">
+          <p
+            id="resolution-help"
+            className="mt-1 text-sm text-[#CCCCCC]"
+            style={{ fontFamily: "'Noto Sans', sans-serif", fontSize: '12px' }}
+          >
             Choose the viewport size for the screenshot
           </p>
         </div>
@@ -236,7 +271,8 @@ export default function Home() {
         <div>
           <label
             htmlFor="user-agent-select"
-            className="block text-sm font-medium text-gray-300 mb-2"
+            className="block text-sm font-medium text-[#FFFFFF] mb-2"
+            style={{ fontFamily: "'Noto Sans', sans-serif", fontWeight: 400 }}
           >
             Browser User Agent
           </label>
@@ -245,7 +281,8 @@ export default function Home() {
             value={userAgent}
             onChange={handleUserAgentChange}
             disabled={loading}
-            className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500/50 focus:bg-gray-700/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm appearance-none"
+            className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#808080]/50 rounded-lg text-[#FFFFFF] focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000]/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 appearance-none"
+            style={{ fontFamily: "'Noto Sans', sans-serif", fontSize: '14px' }}
             aria-describedby="user-agent-help"
             aria-label="Select browser user agent"
           >
@@ -275,7 +312,11 @@ export default function Home() {
               </option>
             </optgroup>
           </select>
-          <p id="user-agent-help" className="mt-1 text-sm text-gray-400">
+          <p
+            id="user-agent-help"
+            className="mt-1 text-sm text-[#CCCCCC]"
+            style={{ fontFamily: "'Noto Sans', sans-serif", fontSize: '12px' }}
+          >
             Choose how the website sees your browser
           </p>
         </div>
@@ -287,12 +328,17 @@ export default function Home() {
             checked={enableAdblock}
             onChange={(e) => setEnableAdblock(e.target.checked)}
             disabled={loading}
-            className="h-4 w-4 text-emerald-600 bg-gray-700 border-gray-600 rounded focus:ring-emerald-500 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-4 w-4 text-[#FF0000] bg-[#1A1A1A] border-[#808080] rounded focus:ring-[#FF0000] focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-describedby="adblock-help"
           />
           <label
             htmlFor="adblock-checkbox"
-            className="ml-2 block text-sm text-gray-300 cursor-pointer"
+            className="ml-2 block text-sm text-[#FFFFFF] cursor-pointer"
+            style={{
+              fontFamily: "'Noto Sans', sans-serif",
+              fontSize: '12px',
+              textTransform: 'uppercase',
+            }}
           >
             Enable ad blocker
           </label>
@@ -305,7 +351,14 @@ export default function Home() {
         <button
           type="submit"
           disabled={loading || !url.trim()}
-          className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-3 group"
+          className="w-full bg-[#FF0000] hover:bg-[#FF0000]/80 text-[#000000] py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 shadow-lg shadow-[#FF0000]/25 hover:shadow-[#FF0000]/40 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:ring-offset-2 focus:ring-offset-[#1A1A1A] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-3 group"
+          style={{
+            fontFamily: "'Noto Sans', sans-serif",
+            fontSize: '18px',
+            fontWeight: 700,
+            padding: '16px 24px',
+            borderRadius: '4px',
+          }}
           aria-describedby={loading ? 'loading-status' : 'submit-help'}
           aria-label={
             loading
