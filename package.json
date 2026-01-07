@@ -1,6 +1,6 @@
 {
   "name": "ninjasnap",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "🥷 A stealthy web screenshot tool with ninja-like precision using Next.js and Puppeteer",
   "main": "dist/index.js",
   "type": "module",

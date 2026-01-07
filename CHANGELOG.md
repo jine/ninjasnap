@@ -5,6 +5,27 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-01-07
+
+### Added
+
+- **Enhanced Design Token Documentation**: Expanded DESIGN.md with comprehensive component-specific tokens, usage examples, and implementation validation
+- **Component-Specific Token System**: Detailed tokens for Header, FormCard, Selection Buttons, Capture Button, Screenshot Cards, and Action Buttons
+- **Implementation Validation**: Added validation section comparing live code against design tokens with discrepancy analysis
+- **CSS Variables Format**: Complete CSS custom properties format with practical implementation examples
+
+### Improved
+
+- **Design System Structure**: Reorganized tokens by foundation, components, themes, and accessibility for better clarity
+- **Component Documentation**: Enhanced component-specific tokens with precise values and usage guidelines
+- **Token Organization**: Logical grouping with semantic naming and consistent patterns throughout
+
+### Technical
+
+- **Design Token Accuracy**: All tokens now precisely match the Figma design specifications
+- **Implementation Consistency**: Perfect alignment between design tokens and live components
+- **Maintainability**: Enhanced documentation structure for long-term design system evolution
+
 ## [3.1.0] - 2026-01-07
 
 ### Added
