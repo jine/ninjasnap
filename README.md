@@ -1,6 +1,6 @@
 # 🥷 NinjaSnap
 
-# 🥷 NinjaSnap
+**Enterprise-grade web screenshot capture with ninja-like stealth and precision.**
 
 **Enterprise-grade web screenshot capture with ninja-like stealth and precision.**
 
