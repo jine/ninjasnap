@@ -114,15 +114,23 @@ export default function Home() {
 
   return (
     <main
-      className="max-w-md mx-auto mt-20 p-6 bg-gray-800 rounded-lg shadow-2xl border border-gray-700"
+      className="max-w-md mx-auto mt-20 p-6 bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-xl shadow-2xl border border-gray-700/50 backdrop-blur-sm"
       role="main"
     >
-      <header>
-        <h1 className="text-3xl font-bold text-center mb-6 text-emerald-400 flex items-center justify-center gap-2">
-          🥷 NinjaSnap
+      <header className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl shadow-lg shadow-emerald-500/25 mb-4 animate-pulse">
+          <span className="text-3xl">🥷</span>
+        </div>
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 via-emerald-300 to-blue-400 bg-clip-text text-transparent mb-2">
+          NinjaSnap
         </h1>
-        <p className="text-center text-gray-300 mb-6" id="app-description">
-          Stealthy screenshot capture tool with ninja-like precision
+        <div className="h-1 w-20 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full mx-auto mb-4"></div>
+        <p className="text-gray-300 leading-relaxed" id="app-description">
+          Capture website screenshots with{' '}
+          <span className="text-emerald-400 font-semibold">
+            ninja-like precision
+          </span>{' '}
+          and stealth
         </p>
       </header>
 
@@ -138,15 +146,18 @@ export default function Home() {
         {loading && 'Processing screenshot request'}
       </div>
 
-      {/* Notification banner */}
+      {/* Enhanced notification banner */}
       {notification && (
         <div
           role="status"
           aria-live="polite"
-          className="mb-4 p-3 bg-emerald-900/50 border border-emerald-600 rounded-md text-emerald-200"
+          className="mb-6 p-4 bg-gradient-to-r from-emerald-900/60 to-emerald-800/60 border border-emerald-500/30 rounded-xl text-emerald-200 backdrop-blur-sm shadow-lg shadow-emerald-500/10 animate-in slide-in-from-top-2 duration-300"
           aria-label={`Notification: ${notification}`}
         >
-          {notification}
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+            <span className="font-medium">{notification}</span>
+          </div>
         </div>
       )}
 
@@ -173,7 +184,7 @@ export default function Home() {
             placeholder="Enter URL to capture..."
             required
             disabled={loading}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500/50 focus:bg-gray-700/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm"
             aria-describedby="url-help url-error"
             aria-required="true"
             aria-invalid={error ? 'true' : 'false'}
@@ -206,7 +217,7 @@ export default function Home() {
             value={resolution}
             onChange={handleResolutionChange}
             disabled={loading}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500/50 focus:bg-gray-700/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm appearance-none"
             aria-describedby="resolution-help"
             aria-label="Select screenshot resolution"
           >
@@ -234,7 +245,7 @@ export default function Home() {
             value={userAgent}
             onChange={handleUserAgentChange}
             disabled={loading}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500/50 focus:bg-gray-700/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm appearance-none"
             aria-describedby="user-agent-help"
             aria-label="Select browser user agent"
           >
@@ -294,7 +305,7 @@ export default function Home() {
         <button
           type="submit"
           disabled={loading || !url.trim()}
-          className="w-full bg-emerald-600 text-white py-3 px-4 rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-semibold flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-3 group"
           aria-describedby={loading ? 'loading-status' : 'submit-help'}
           aria-label={
             loading
@@ -305,7 +316,7 @@ export default function Home() {
           {loading ? (
             <>
               <svg
-                className="animate-spin h-5 w-5"
+                className="animate-spin h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -327,13 +338,28 @@ export default function Home() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              <span id="loading-status" aria-live="polite">
+              <span id="loading-status" aria-live="polite" className="text-lg">
                 Capturing screenshot...
               </span>
             </>
           ) : (
             <>
-              <span>🎯 Capture Screenshot</span>
+              <span className="text-xl group-hover:animate-bounce">🎯</span>
+              <span className="text-lg">Capture Screenshot</span>
+              <svg
+                className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
             </>
           )}
         </button>
@@ -346,12 +372,6 @@ export default function Home() {
             : 'Click to capture screenshot of the entered URL'}
         </p>
       </form>
-
-      {notification && (
-        <div className="mt-4 p-2 bg-emerald-900/20 border border-emerald-600 rounded text-emerald-400 text-center">
-          {notification}
-        </div>
-      )}
       {error && (
         <div
           ref={errorRef}
@@ -363,6 +383,15 @@ export default function Home() {
           {error}
         </div>
       )}
+
+      {/* Footer */}
+      <footer className="text-center mt-8 text-gray-400 text-sm">
+        <p className="flex items-center justify-center gap-2">
+          <span className="text-emerald-400">⚡</span>
+          Powered by modern web technologies
+          <span className="text-blue-400">🚀</span>
+        </p>
+      </footer>
     </main>
   );
 }
