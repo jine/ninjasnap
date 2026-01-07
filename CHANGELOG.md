@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dark ninja-themed React frontend with Next.js and Tailwind CSS
 - Web interface for submitting URLs and viewing screenshots
 - Unique link generation for screenshot sharing
+- **Resolution selection** with 6 predefined options (desktop to mobile)
+- **User agent customization** with 7 browser options and auto-switching for mobile
+- **Adblock option** with uBlock Origin integration
+- Input sanitization and 30-second timeout for security and performance
 
 ### Changed
 - Renamed project to NinjaSnap with ninja-themed branding
