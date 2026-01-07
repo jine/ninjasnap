@@ -11,11 +11,17 @@ import { ScreenshotGrid } from '../components/ScreenshotGrid';
 
 interface Screenshot {
   id: string;
-  url: string;
-  resolution: string;
-  userAgent: string;
-  timestamp: Date;
+  url: string; // Website URL (may be unknown from API)
+  resolution: string; // May be "Unknown" if not available
+  userAgent: string; // May be "Unknown" if not available
+  timestamp: Date | string | null | undefined; // Allow multiple types for robustness
   imageUrl: string;
+}
+
+interface ScreenshotApiResponse {
+  id: string;
+  url: string;
+  createdAt: string;
 }
 
 // User agent mapping for API calls
@@ -83,7 +89,7 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         // Transform API response to match Screenshot interface
-        const transformedData = data.map((item: any) => {
+        const transformedData = data.map((item: ScreenshotApiResponse) => {
           const timestamp = item.createdAt
             ? new Date(item.createdAt)
             : new Date();

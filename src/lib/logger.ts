@@ -1,5 +1,7 @@
 import crypto from 'crypto';
 import winston from 'winston';
+import fs from 'fs';
+import path from 'path';
 
 /**
  * Log levels
@@ -29,8 +31,6 @@ if (
 ) {
   try {
     // Create logs directory if it doesn't exist
-    const fs = require('fs');
-    const path = require('path');
     const logsDir = path.join(process.cwd(), 'logs');
 
     if (!fs.existsSync(logsDir)) {
