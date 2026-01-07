@@ -1,17 +1,5 @@
-'use client';
-
-import { useState, useEffect, useRef } from 'react';
-import {
-  Camera,
-  Monitor,
-  Smartphone,
-  Tablet,
-  Chrome,
-  Globe,
-  Download,
-} from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
+import { useState } from "react";
+import { Camera, Monitor, Smartphone, Tablet, Chrome, Globe, Download, Trash2 } from "lucide-react";
 
 interface Screenshot {
   id: string;
@@ -23,172 +11,73 @@ interface Screenshot {
 }
 
 const resolutions = [
-  { label: 'Desktop (1920x1080)', value: '1920x1080', icon: Monitor },
-  { label: 'Laptop (1366x768)', value: '1366x768', icon: Monitor },
-  { label: 'Tablet (768x1024)', value: '768x1024', icon: Tablet },
-  { label: 'Mobile (375x667)', value: '375x667', icon: Smartphone },
+  { label: "Desktop (1920x1080)", value: "1920x1080", icon: Monitor },
+  { label: "Laptop (1366x768)", value: "1366x768", icon: Monitor },
+  { label: "Tablet (768x1024)", value: "768x1024", icon: Tablet },
+  { label: "Mobile (375x667)", value: "375x667", icon: Smartphone },
 ];
 
 const userAgents = [
-  {
-    label: 'Chrome Desktop',
-    value: 'chrome',
-    icon: Chrome,
-    uaString:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-  },
-  {
-    label: 'Firefox Desktop',
-    value: 'firefox',
-    icon: Globe,
-    uaString:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
-  },
-  {
-    label: 'Safari Desktop',
-    value: 'safari',
-    icon: Globe,
-    uaString:
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15',
-  },
-  {
-    label: 'Mobile Chrome',
-    value: 'mobile-chrome',
-    icon: Smartphone,
-    uaString:
-      'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-  },
+  { label: "Chrome Desktop", value: "chrome", icon: Chrome },
+  { label: "Firefox Desktop", value: "firefox", icon: Globe },
+  { label: "Safari Desktop", value: "safari", icon: Globe },
+  { label: "Mobile Chrome", value: "mobile-chrome", icon: Smartphone },
 ];
 
-export default function Home() {
-  const [url, setUrl] = useState('');
-  const [resolution, setResolution] = useState('1920x1080');
-  const [userAgent, setUserAgent] = useState('chrome');
-  const [enableAdblock, setEnableAdblock] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+export default function App() {
+  const [url, setUrl] = useState("");
+  const [resolution, setResolution] = useState("1920x1080");
+  const [userAgent, setUserAgent] = useState("chrome");
   const [screenshots, setScreenshots] = useState<Screenshot[]>([]);
-  const [userManuallyChangedUA, setUserManuallyChangedUA] = useState(false);
-  const [userManuallyChangedResolution, setUserManuallyChangedResolution] =
-    useState(false);
-  // eslint-disable-next-line no-undef
-  const errorRef = useRef<HTMLDivElement>(null);
-
-  // Auto-switch user agent based on resolution
-  useEffect(() => {
-    const isMobileResolution = ['768x1024', '375x667'].includes(resolution);
-
-    if (!userManuallyChangedUA) {
-      if (isMobileResolution) {
-        setUserAgent('mobile-chrome');
-      } else {
-        setUserAgent('chrome');
-      }
-    }
-  }, [resolution, userManuallyChangedUA]);
-
-  // Auto-switch resolution based on user agent
-  useEffect(() => {
-    const isMobileUA = userAgent.includes('mobile');
-
-    if (!userManuallyChangedResolution) {
-      if (isMobileUA) {
-        setResolution('375x667');
-      } else {
-        setResolution('1920x1080');
-      }
-    }
-  }, [userAgent, userManuallyChangedResolution]);
-
-  // Focus management for errors
-  useEffect(() => {
-    if (error && errorRef.current) {
-      errorRef.current.focus();
-    }
-  }, [error]);
-
-  // Load previous screenshots
-  useEffect(() => {
-    fetch('/api/screenshots')
-      .then((res) => res.json())
-      .then((data) => setScreenshots(data))
-      .catch((err) => console.error('Failed to load screenshots:', err));
-  }, []);
+  const [isCapturing, setIsCapturing] = useState(false);
+  const [urlError, setUrlError] = useState("");
 
   const validateUrl = (value: string) => {
     if (!value) {
-      setError('URL is required');
+      setUrlError("URL is required");
       return false;
     }
     try {
       new URL(value);
-      setError('');
+      setUrlError("");
       return true;
     } catch {
-      setError('Please enter a valid URL (e.g., https://example.com)');
+      setUrlError("Please enter a valid URL (e.g., https://example.com)");
       return false;
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateUrl(url)) return;
-
-    setLoading(true);
-    setError('');
-
-    try {
-      const uaString =
-        userAgents.find((ua) => ua.value === userAgent)?.uaString || userAgent;
-      const response = await fetch('/api/screenshot', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          url,
-          resolution,
-          userAgent: uaString,
-          enableAdblock,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to take screenshot');
-      }
-
-      const data = await response.json();
-
-      // Create mock screenshot for display (since we navigate to the actual screenshot page)
-      const newScreenshot: Screenshot = {
-        id: data.id,
-        url,
-        resolution,
-        userAgent,
-        timestamp: new Date(),
-        imageUrl: `https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop`,
-      };
-
-      setScreenshots([newScreenshot, ...screenshots]);
-      window.location.href = `/screenshot/${data.id}`;
-    } catch (err) {
-      setError('Error taking screenshot. Please try again.');
-      console.error(err);
-    } finally {
-      setLoading(false);
+  const handleCapture = async () => {
+    if (!validateUrl(url)) {
+      return;
     }
+
+    setIsCapturing(true);
+
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // Create mock screenshot
+    const newScreenshot: Screenshot = {
+      id: Date.now().toString(),
+      url,
+      resolution,
+      userAgent,
+      timestamp: new Date(),
+      imageUrl: `https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop`, // Mock screenshot
+    };
+
+    setScreenshots([newScreenshot, ...screenshots]);
+    setIsCapturing(false);
   };
 
-  const handleResolutionChange = (value: string) => {
-    setResolution(value);
-    setUserManuallyChangedResolution(true);
-    setUserManuallyChangedUA(false);
+  const handleDelete = (id: string) => {
+    setScreenshots(screenshots.filter((s) => s.id !== id));
   };
 
-  const handleUserAgentChange = (value: string) => {
-    setUserAgent(value);
-    setUserManuallyChangedUA(true);
-    setUserManuallyChangedResolution(false);
+  const handleDownload = (screenshot: Screenshot) => {
+    // Mock download functionality
+    console.log("Downloading screenshot:", screenshot);
   };
 
   return (
@@ -206,17 +95,14 @@ export default function Home() {
         </div>
 
         {/* Main Form */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-12 border border-white/20 shadow-2xl max-w-4xl mx-auto">
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-12 border border-white/20 shadow-2xl">
           <div className="space-y-6">
             {/* URL Input */}
             <div>
-              <label
-                htmlFor="url"
-                className="block text-sm font-medium text-white mb-2"
-              >
+              <label htmlFor="url" className="block text-sm font-medium text-white mb-2">
                 Website URL <span className="text-red-400">*</span>
               </label>
-              <Input
+              <input
                 type="text"
                 id="url"
                 value={url}
@@ -227,7 +113,9 @@ export default function Home() {
                 placeholder="Enter a valid website URL (e.g., https://example.com)"
                 className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
               />
-              {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+              {urlError && (
+                <p className="text-red-400 text-sm mt-2">{urlError}</p>
+              )}
             </div>
 
             {/* Screenshot Resolution */}
@@ -244,11 +132,11 @@ export default function Home() {
                   return (
                     <button
                       key={res.value}
-                      onClick={() => handleResolutionChange(res.value)}
+                      onClick={() => setResolution(res.value)}
                       className={`p-4 rounded-lg border-2 transition-all ${
                         resolution === res.value
-                          ? 'border-purple-500 bg-purple-500/20 text-white'
-                          : 'border-white/20 bg-white/5 text-white/80 hover:border-purple-400 hover:bg-white/10'
+                          ? "border-purple-500 bg-purple-500/20 text-white"
+                          : "border-white/20 bg-white/5 text-white/80 hover:border-purple-400 hover:bg-white/10"
                       }`}
                     >
                       <Icon className="w-6 h-6 mb-2 mx-auto" />
@@ -273,11 +161,11 @@ export default function Home() {
                   return (
                     <button
                       key={agent.value}
-                      onClick={() => handleUserAgentChange(agent.value)}
+                      onClick={() => setUserAgent(agent.value)}
                       className={`p-4 rounded-lg border-2 transition-all ${
                         userAgent === agent.value
-                          ? 'border-purple-500 bg-purple-500/20 text-white'
-                          : 'border-white/20 bg-white/5 text-white/80 hover:border-purple-400 hover:bg-white/10'
+                          ? "border-purple-500 bg-purple-500/20 text-white"
+                          : "border-white/20 bg-white/5 text-white/80 hover:border-purple-400 hover:bg-white/10"
                       }`}
                     >
                       <Icon className="w-6 h-6 mb-2 mx-auto" />
@@ -288,32 +176,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Adblock Toggle */}
-            <div className="flex items-center">
-              <input
-                id="adblock-checkbox"
-                type="checkbox"
-                checked={enableAdblock}
-                onChange={(e) => setEnableAdblock(e.target.checked)}
-                disabled={loading}
-                className="h-4 w-4 text-purple-500 bg-white/10 border-white/20 rounded focus:ring-purple-500 focus:ring-2 disabled:opacity-50"
-              />
-              <label
-                htmlFor="adblock-checkbox"
-                className="ml-2 block text-sm text-white cursor-pointer"
-              >
-                Enable ad blocker
-              </label>
-            </div>
-
             {/* Capture Button */}
             <div className="pt-4">
-              <Button
-                onClick={handleSubmit}
-                disabled={loading || !url}
+              <button
+                onClick={handleCapture}
+                disabled={isCapturing || !url}
                 className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
               >
-                {loading ? (
+                {isCapturing ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     Capturing Screenshot...
@@ -324,7 +194,7 @@ export default function Home() {
                     Click to capture screenshot of the entered URL
                   </>
                 )}
-              </Button>
+              </button>
               <p className="text-center text-sm text-purple-200 mt-2">
                 Click to capture screenshot of the website URL you entered above
               </p>
@@ -362,28 +232,26 @@ export default function Home() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Chrome className="w-4 h-4" />
-                        <span>
-                          {
-                            userAgents.find(
-                              (a) => a.value === screenshot.userAgent,
-                            )?.label
-                          }
-                        </span>
+                        <span>{userAgents.find((a) => a.value === screenshot.userAgent)?.label}</span>
                       </div>
                       <div className="text-xs text-purple-300">
                         {screenshot.timestamp.toLocaleString()}
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button
-                        onClick={() =>
-                          window.open(`/screenshot/${screenshot.id}`, '_blank')
-                        }
+                      <button
+                        onClick={() => handleDownload(screenshot)}
                         className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 px-3 rounded-lg text-sm font-medium transition flex items-center justify-center gap-2"
                       >
                         <Download className="w-4 h-4" />
-                        View
-                      </Button>
+                        Download
+                      </button>
+                      <button
+                        onClick={() => handleDelete(screenshot.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-lg text-sm font-medium transition flex items-center justify-center"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
                 </div>

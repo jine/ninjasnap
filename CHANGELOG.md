@@ -5,6 +5,38 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-01-07
+
+### Major Changes
+
+- **Complete UI/UX Redesign**: Transformed the interface with a stunning dark ninja-themed design featuring gradient backgrounds, glassmorphism effects, and modern aesthetics
+- **Glassmorphism Design System**: Implemented backdrop-blur effects, transparent overlays, and purple/pink gradient accents throughout the application
+- **Interactive Resolution Cards**: Converted dropdown selects to beautiful grid-based cards with device icons for resolution selection
+- **Interactive User Agent Cards**: Replaced text-based selects with visually appealing cards featuring browser icons
+- **Enhanced Visual Hierarchy**: Improved typography, spacing, and color scheme with professional design system variables
+- **Modern Component Library**: Integrated shadcn/ui components with custom theming and CSS variables for consistent styling
+
+### Added
+
+- **Design System**: Complete theme system with CSS custom properties for colors, typography, and component variants
+- **Glassmorphism Effects**: Backdrop-blur overlays and transparent backgrounds for modern visual appeal
+- **Icon Integration**: Lucide React icons throughout the interface for better visual communication
+- **Responsive Grid Layouts**: Flexible grid systems for resolutions and user agents that adapt to screen sizes
+- **Interactive Card Components**: Hover states, focus indicators, and smooth transitions for all interactive elements
+
+### Changed
+
+- **Color Palette**: Migrated from red/black theme to purple/pink gradient theme matching ninja aesthetics
+- **Layout Structure**: Full-width responsive layout with centered content and improved spacing
+- **Form Controls**: Replaced traditional selects with modern card-based selection interfaces
+- **Visual Feedback**: Enhanced loading states, hover effects, and user interaction feedback
+
+### Technical
+
+- **CSS Architecture**: Implemented modern CSS with custom properties and utility-first approach
+- **Component System**: Added reusable UI components with TypeScript support and proper accessibility
+- **Theme Variables**: Comprehensive design token system for consistent theming across light/dark modes
+
 ## [2.0.3] - 2026-01-07
 
 ### Added
