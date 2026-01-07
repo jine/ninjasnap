@@ -80,7 +80,10 @@ curl -X POST http://localhost:42069/api/screenshot \
   -H "Content-Type: application/json" \
   -d '{"url":"https://github.com","resolution":"1280x720","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36","enableAdblock":false}'
 
-# Rebuild and restart
+# Rebuild and restart (use cache for faster builds)
+docker compose down && docker compose build && docker compose up -d
+
+# For clean rebuilds (when dependencies change), use --no-cache
 docker compose down && docker compose build --no-cache && docker compose up -d
 ```
 
