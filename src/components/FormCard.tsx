@@ -7,8 +7,16 @@ interface FormCardProps {
 
 export const FormCard = ({ children, className = '' }: FormCardProps) => (
   <div
-    className={`bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-12 border border-white/20 shadow-2xl max-w-4xl mx-auto ${className}`}
+    className={`max-w-4xl mx-auto mb-12 backdrop-blur-lg ${className}`}
+    style={{
+      background: 'var(--form-card-bg)',
+      backdropFilter: 'var(--form-card-backdrop)',
+      border: '1px solid var(--border-default)',
+      borderRadius: 'var(--form-card-radius)',
+      padding: 'var(--form-card-padding)',
+      boxShadow: 'var(--form-card-shadow)',
+    }}
   >
-    <div className="space-y-6">{children}</div>
+    {children}
   </div>
 );

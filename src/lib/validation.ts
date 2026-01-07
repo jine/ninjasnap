@@ -81,6 +81,8 @@ export const EnhancedScreenshotRequestSchema = z.object({
   url: SafeUrlSchema,
   resolution: z
     .enum([
+      '3840x2160',
+      '3440x1440',
       '1920x1080',
       '1366x768',
       '1280x720',

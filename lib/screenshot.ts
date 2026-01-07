@@ -5,6 +5,8 @@ import { puppeteerPool } from '../src/lib/puppeteer-pool';
  * Supported screenshot resolutions
  */
 export type ScreenshotResolution =
+  | '3840x2160'
+  | '3440x1440'
   | '1920x1080'
   | '1366x768'
   | '1280x720'

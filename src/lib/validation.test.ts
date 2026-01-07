@@ -101,6 +101,28 @@ describe('URL Validation', () => {
       ).toThrow();
     });
 
+    it('should validate 4K UHD resolution', () => {
+      const request = {
+        url: 'https://example.com',
+        resolution: '3840x2160' as const,
+      };
+
+      expect(() =>
+        EnhancedScreenshotRequestSchema.parse(request),
+      ).not.toThrow();
+    });
+
+    it('should validate ultrawide resolution', () => {
+      const request = {
+        url: 'https://example.com',
+        resolution: '3440x1440' as const,
+      };
+
+      expect(() =>
+        EnhancedScreenshotRequestSchema.parse(request),
+      ).not.toThrow();
+    });
+
     it('should reject invalid user agents', () => {
       const invalidRequest = {
         url: 'https://example.com',

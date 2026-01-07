@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Camera } from 'lucide-react';
-import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Header } from '../components/Header';
 import { ResolutionSelector } from '../components/ResolutionSelector';
@@ -191,9 +190,10 @@ export default function Home() {
           <div>
             <label
               htmlFor="url"
-              className="block text-sm font-medium text-white mb-2"
+              className="block text-sm font-medium mb-2"
+              style={{ color: 'var(--text-primary)' }}
             >
-              Website URL <span className="text-red-400">*</span>
+              Website URL <span style={{ color: 'var(--text-error)' }}>*</span>
             </label>
             <Input
               type="text"
@@ -204,9 +204,21 @@ export default function Home() {
                 if (e.target.value) validateUrl(e.target.value);
               }}
               placeholder="Enter a valid website URL (e.g., https://example.com)"
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+              className="w-full px-4 py-3 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 transition"
+              style={{
+                background: 'var(--bg-input)',
+                border: '1px solid var(--border-default)',
+                color: 'var(--text-primary)',
+              }}
             />
-            {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+            {error && (
+              <p
+                className="text-sm mt-2"
+                style={{ color: 'var(--text-error)' }}
+              >
+                {error}
+              </p>
+            )}
           </div>
 
           <ResolutionSelector
@@ -227,11 +239,17 @@ export default function Home() {
               checked={enableAdblock}
               onChange={(e) => setEnableAdblock(e.target.checked)}
               disabled={loading}
-              className="h-4 w-4 text-purple-500 bg-white/10 border-white/20 rounded focus:ring-purple-500 focus:ring-2 disabled:opacity-50"
+              className="h-4 w-4 rounded focus:ring-2 disabled:opacity-50"
+              style={{
+                background: 'var(--bg-input)',
+                border: '1px solid var(--border-default)',
+                accentColor: 'var(--accent-purple)',
+              }}
             />
             <label
               htmlFor="adblock-checkbox"
-              className="ml-2 block text-sm text-white cursor-pointer"
+              className="ml-2 block text-sm cursor-pointer"
+              style={{ color: 'var(--text-primary)' }}
             >
               Enable ad blocker
             </label>
@@ -239,25 +257,61 @@ export default function Home() {
 
           {/* Capture Button */}
           <div className="pt-4">
-            <Button
+            <button
               onClick={handleSubmit}
               disabled={loading || !url}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+              className="w-full rounded-lg font-semibold text-lg flex items-center justify-center gap-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{
+                background: 'var(--gradient-button)',
+                color: 'var(--text-primary)',
+                padding:
+                  'var(--capture-button-padding-y) var(--capture-button-padding-x)',
+                fontSize: 'var(--capture-button-font-size)',
+                fontWeight: 'var(--capture-button-font-weight)',
+                boxShadow: 'var(--capture-button-shadow)',
+                border: 'none',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.7 : 1,
+              }}
+              onMouseEnter={() => {
+                const button = document.activeElement;
+                if (button instanceof HTMLElement) {
+                  button.style.background = 'var(--gradient-button-hover)';
+                  button.style.boxShadow = 'var(--capture-button-shadow-hover)';
+                }
+              }}
+              onMouseLeave={() => {
+                const button = document.activeElement;
+                if (button instanceof HTMLElement) {
+                  button.style.background = 'var(--gradient-button)';
+                  button.style.boxShadow = 'var(--capture-button-shadow)';
+                }
+              }}
             >
               {loading ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Capturing Screenshot...
+                  <div
+                    className="w-5 h-5 border-2 border-white rounded-full"
+                    style={{
+                      borderColor: 'transparent',
+                      borderTopColor: 'var(--text-primary)',
+                      animation: 'spin 1s linear infinite',
+                    }}
+                  />
+                  <span>Capturing Screenshot...</span>
                 </>
               ) : (
                 <>
                   <Camera className="w-5 h-5" />
-                  Click to capture screenshot of the entered URL
+                  <span>Click to capture screenshot of the entered URL</span>
                 </>
               )}
-            </Button>
-            <p className="text-center text-sm text-purple-200 mt-2">
-              Click to capture screenshot of the website URL you entered above
+            </button>
+            <p
+              className="text-center text-sm mt-2"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Click to capture screenshot of website URL you entered above
             </p>
           </div>
         </FormCard>

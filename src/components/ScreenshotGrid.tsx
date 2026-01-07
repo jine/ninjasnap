@@ -1,5 +1,4 @@
 import { Download, Monitor, Chrome, Globe, Smartphone } from 'lucide-react';
-import { Button } from './ui/button';
 
 interface Screenshot {
   id: string;
@@ -26,29 +25,70 @@ export const ScreenshotGrid = ({ screenshots }: ScreenshotGridProps) => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+      <h2
+        className="text-3xl font-bold mb-6 flex items-center gap-3"
+        style={{ color: 'var(--text-primary)' }}
+      >
         🖼️ Previous Screenshots
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        style={{ gap: 'var(--space-8)' }}
+      >
         {screenshots.map((screenshot) => (
           <div
             key={screenshot.id}
-            className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border border-white/20 shadow-xl hover:shadow-2xl transition-shadow"
+            className="overflow-hidden"
+            style={{
+              background: 'var(--bg-card)',
+              backdropFilter: 'var(--blur-lg)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-md)',
+              boxShadow: 'var(--shadow-xl)',
+              transition: 'box-shadow var(--transition-base)',
+            }}
+            onMouseEnter={(e) => {
+              const card = e.currentTarget as HTMLElement;
+              card.style.boxShadow = 'var(--shadow-2xl)';
+            }}
+            onMouseLeave={(e) => {
+              const card = e.currentTarget as HTMLElement;
+              card.style.boxShadow = 'var(--shadow-xl)';
+            }}
           >
-            <div className="aspect-video bg-slate-800 relative overflow-hidden">
+            <div
+              className="aspect-video relative overflow-hidden"
+              style={{ background: 'var(--bg-screenshot-placeholder)' }}
+            >
               <img
                 src={screenshot.imageUrl}
                 alt={`Screenshot of ${screenshot.url}`}
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="p-4">
-              <div className="text-white font-medium truncate mb-2">
+            <div
+              className="p-4"
+              style={{ padding: 'var(--screenshot-card-padding)' }}
+            >
+              <div
+                className="font-medium truncate mb-2"
+                style={{
+                  color: 'var(--text-primary)',
+                }}
+              >
                 {screenshot.url === screenshot.imageUrl
                   ? `Screenshot ${screenshot.id}`
                   : screenshot.url}
               </div>
-              <div className="text-sm text-purple-200 space-y-1 mb-3">
+              <div
+                className="text-sm mb-3"
+                style={{
+                  color: 'var(--text-secondary)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'var(--space-2)',
+                }}
+              >
                 {screenshot.resolution !== 'Unknown' && (
                   <div className="flex items-center gap-2">
                     <Monitor className="w-4 h-4" />
@@ -66,12 +106,13 @@ export const ScreenshotGrid = ({ screenshots }: ScreenshotGridProps) => {
                     </span>
                   </div>
                 )}
-                <div className="text-xs text-purple-300">
+                <div
+                  className="text-xs"
+                  style={{ color: 'var(--text-tertiary)' }}
+                >
                   {(() => {
                     try {
                       if (!screenshot.timestamp) return 'Unknown date';
-
-                      // Handle different timestamp types
                       let date: Date;
                       if (screenshot.timestamp instanceof Date) {
                         date = screenshot.timestamp;
@@ -80,10 +121,7 @@ export const ScreenshotGrid = ({ screenshots }: ScreenshotGridProps) => {
                       } else {
                         return 'Unknown date';
                       }
-
-                      // Check if date is valid
                       if (isNaN(date.getTime())) return 'Invalid date';
-
                       return date.toLocaleString();
                     } catch (error) {
                       console.error(
@@ -97,15 +135,33 @@ export const ScreenshotGrid = ({ screenshots }: ScreenshotGridProps) => {
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button
+                <button
                   onClick={() =>
                     window.open(`/screenshot/${screenshot.id}`, '_blank')
                   }
-                  className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 px-3 rounded-lg text-sm font-medium transition flex items-center justify-center gap-2"
+                  className="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition flex items-center justify-center gap-2"
+                  style={{
+                    background: 'var(--action-button-primary-bg)',
+                    color: 'var(--text-primary)',
+                    padding:
+                      'var(--action-button-padding-y) var(--action-button-padding-x)',
+                    fontSize: 'var(--action-button-font-size)',
+                    fontWeight: 'var(--action-button-font-weight)',
+                    transition: 'all var(--transition-base)',
+                  }}
+                  onMouseEnter={(e) => {
+                    const btn = e.currentTarget as HTMLElement;
+                    btn.style.background =
+                      'var(--action-button-primary-bg-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    const btn = e.currentTarget as HTMLElement;
+                    btn.style.background = 'var(--action-button-primary-bg)';
+                  }}
                 >
                   <Download className="w-4 h-4" />
                   View
-                </Button>
+                </button>
               </div>
             </div>
           </div>

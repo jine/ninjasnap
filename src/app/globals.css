@@ -131,7 +131,8 @@
 
 @layer base {
   * {
-    @apply border-default outline-none;
+    border-color: var(--border-default);
+    outline: none;
   }
 
   body {

@@ -1,17 +1,11 @@
 import { Chrome, Globe, Smartphone } from 'lucide-react';
 
-interface UserAgentOption {
-  label: string;
-  value: string;
-  icon: typeof Chrome;
-}
-
 interface UserAgentSelectorProps {
   selectedUserAgent: string;
   onUserAgentChange: (value: string) => void;
 }
 
-const userAgents: UserAgentOption[] = [
+const userAgents = [
   {
     label: 'Chrome Desktop',
     value: 'chrome',
@@ -39,27 +33,47 @@ export const UserAgentSelector = ({
   onUserAgentChange,
 }: UserAgentSelectorProps) => (
   <div>
-    <label className="block text-sm font-medium text-white mb-3">
-      Browser User Agent
-    </label>
-    <p className="text-sm text-purple-200 mb-3">
-      Choose how the website sees your browser
+    <label className="block text-sm font-medium mb-3">Browser User Agent</label>
+    <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
+      Choose how to website sees your browser
     </p>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
       {userAgents.map((agent) => {
         const Icon = agent.icon;
+        const isSelected = selectedUserAgent === agent.value;
         return (
           <button
             key={agent.value}
             onClick={() => onUserAgentChange(agent.value)}
-            className={`p-4 rounded-lg border-2 transition-all ${
-              selectedUserAgent === agent.value
-                ? 'border-purple-500 bg-purple-500/20 text-white'
-                : 'border-white/20 bg-white/5 text-white/80 hover:border-purple-400 hover:bg-white/10'
-            }`}
+            className="p-4 rounded-lg border-2 transition-all"
+            style={{
+              padding: 'var(--selection-button-padding)',
+              borderWidth: 'var(--selection-button-border-width)',
+              borderColor: isSelected
+                ? 'var(--selection-button-border-selected)'
+                : 'var(--selection-button-border-default)',
+              backgroundColor: isSelected
+                ? 'var(--selection-button-bg-selected)'
+                : 'var(--selection-button-bg-default)',
+              color: isSelected
+                ? 'var(--selection-button-text-selected)'
+                : 'var(--selection-button-text-default)',
+            }}
           >
-            <Icon className="w-6 h-6 mb-2 mx-auto" />
-            <div className="text-sm font-medium">{agent.label}</div>
+            <Icon
+              className="w-6 h-6 mb-2 mx-auto"
+              style={{ width: '1.5rem', height: '1.5rem' }}
+            />
+            <div
+              className="text-sm font-medium"
+              style={{
+                color: isSelected
+                  ? 'var(--text-primary)'
+                  : 'var(--text-secondary)',
+              }}
+            >
+              {agent.label}
+            </div>
           </button>
         );
       })}
