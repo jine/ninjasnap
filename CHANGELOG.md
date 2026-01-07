@@ -5,6 +5,19 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] - 2026-01-07
+
+### Fixed
+
+- **Dependency Issue**: Fixed missing `is-plain-object` module causing screenshot capture to fail
+- **Container Permissions**: Temporarily run container as root to resolve file write permissions
+- **Port Configuration**: Changed default port to 42069 for better accessibility
+
+### Changed
+
+- **Docker Configuration**: Updated Dockerfile to install all dependencies and run without user restrictions
+- **Package Dependencies**: Ensured all transitive dependencies are properly included
+
 ## [1.2.1] - 2026-01-07
 
 ### Removed
