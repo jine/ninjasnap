@@ -23,11 +23,7 @@ export class ScreenshotQueue {
   /**
    * Add a screenshot task to the queue
    */
-  async add<T>(
-    id: string,
-    task: () => Promise<T>,
-    priority = 0
-  ): Promise<T> {
+  async add<T>(id: string, task: () => Promise<T>, priority = 0): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const queuedTask: QueuedTask<T> = {
         id,
@@ -40,7 +36,7 @@ export class ScreenshotQueue {
 
       // Insert based on priority (higher priority first)
       const insertIndex = this.queue.findIndex(
-        (task) => task.priority < priority
+        (task) => task.priority < priority,
       );
 
       if (insertIndex === -1) {
@@ -87,9 +83,11 @@ export class ScreenshotQueue {
     const index = this.queue.findIndex((task) => task.id === id);
     if (index !== -1) {
       const task = this.queue[index];
-      this.queue.splice(index, 1);
-      task.reject(new Error('Task cancelled'));
-      return true;
+      if (task) {
+        this.queue.splice(index, 1);
+        task.reject(new Error('Task cancelled'));
+        return true;
+      }
     }
     return false;
   }
