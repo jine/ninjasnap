@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Screenshot Tool',
-  description: 'Take screenshots of websites',
+  title: '🥷 NinjaSnap - Stealth Screenshot Tool',
+  description: 'Take undetectable screenshots of websites with ninja-like precision',
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-50 min-h-screen">{children}</body>
+      <body className="bg-gray-900 min-h-screen text-white">{children}</body>
     </html>
   );
 }

@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  screenshot:
+  ninjasnap:
     build: .
-    container_name: screenshot-app
+    container_name: ninjasnap-app
     ports:
       - "3000:3000"
     volumes:
