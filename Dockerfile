@@ -14,7 +14,7 @@ RUN npm run build
 FROM node:22-alpine AS runner
 WORKDIR /app
 
-# Install Chromium
+# Install Chromium and utilities
 RUN apk add --no-cache \
     chromium \
     nss \
@@ -22,11 +22,19 @@ RUN apk add --no-cache \
     freetype-dev \
     harfbuzz \
     ca-certificates \
-    ttf-freefont
+    ttf-freefont \
+    wget \
+    unzip
 
 ENV NODE_ENV production
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Download and extract uBlock Origin extension
+RUN mkdir -p /app/extensions/ublock && \
+    wget -O /tmp/ublock.zip "https://github.com/gorhill/uBlock/releases/download/1.56.0/uBlock0_1.56.0.chromium.zip" && \
+    unzip /tmp/ublock.zip -d /app/extensions/ublock && \
+    rm /tmp/ublock.zip
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

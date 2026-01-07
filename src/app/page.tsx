@@ -60,6 +60,9 @@ export default function Home() {
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [userManuallyChangedUA, setUserManuallyChangedUA] = useState(false);
+  const [userManuallyChangedResolution, setUserManuallyChangedResolution] =
+    useState(false);
+  // eslint-disable-next-line no-undef
   const errorRef = useRef<HTMLDivElement>(null);
 
   // Auto-switch user agent based on resolution
@@ -82,6 +85,23 @@ export default function Home() {
       }
     }
   }, [resolution, userManuallyChangedUA]);
+
+  // Auto-switch resolution based on user agent
+  useEffect(() => {
+    const isMobileUA = userAgent.includes('Mobile');
+
+    if (!userManuallyChangedResolution) {
+      if (isMobileUA) {
+        setResolution('375x667');
+        setNotification('Resolution updated for mobile user agent');
+        setTimeout(() => setNotification(''), 3000);
+      } else {
+        setResolution('1280x720');
+        setNotification('Resolution updated for desktop user agent');
+        setTimeout(() => setNotification(''), 3000);
+      }
+    }
+  }, [userAgent, userManuallyChangedResolution]);
 
   // Focus management for errors
   useEffect(() => {
@@ -122,11 +142,14 @@ export default function Home() {
 
   const handleResolutionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setResolution(e.target.value);
+    setUserManuallyChangedResolution(true);
+    setUserManuallyChangedUA(false);
   };
 
   const handleUserAgentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setUserAgent(e.target.value);
     setUserManuallyChangedUA(true);
+    setUserManuallyChangedResolution(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

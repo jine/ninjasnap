@@ -3,51 +3,36 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
+import { EnhancedScreenshotRequestSchema } from '../../../lib/validation';
+import { config } from '../../../lib/config';
+import { logger, generateCorrelationId } from '../../../lib/logger';
+import {
+  createErrorResponse,
+  createSuccessResponse,
+  ErrorCode,
+  HttpStatus,
+} from '../../../lib/api-response';
+import type { ScreenshotOptions } from '../../../../lib/screenshot';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const ScreenshotRequestSchema = z.object({
-  url: z.string().url(),
-  resolution: z
-    .enum([
-      '1920x1080',
-      '1366x768',
-      '1280x720',
-      '1024x768',
-      '768x1024',
-      '375x667',
-    ])
-    .optional(),
-  userAgent: z
-    .enum([
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15',
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
-      'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1',
-      'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-      'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/18.0 Chrome/120.0.0.0 Mobile Safari/537.36',
-    ])
-    .optional(),
-  enableAdblock: z.boolean().optional(),
-});
-
 // Simple in-memory rate limiting (for demo - use Redis in production)
 const rateLimit = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT = 10; // requests per window
-const WINDOW_MS = 60000; // 1 minute
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const userLimit = rateLimit.get(ip);
 
   if (!userLimit || now > userLimit.resetTime) {
-    rateLimit.set(ip, { count: 1, resetTime: now + WINDOW_MS });
+    rateLimit.set(ip, {
+      count: 1,
+      resetTime: now + config.RATE_LIMIT_WINDOW_MS,
+    });
     return true;
   }
 
-  if (userLimit.count >= RATE_LIMIT) {
+  if (userLimit.count >= config.RATE_LIMIT_MAX) {
     return false;
   }
 
@@ -56,18 +41,36 @@ function checkRateLimit(ip: string): boolean {
 }
 
 export async function POST(request: NextRequest) {
+  const correlationId = generateCorrelationId();
+  const requestLogger = logger.withCorrelationId(correlationId);
+  const startTime = Date.now();
+
   // Rate limiting
-  const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+  const ip =
+    request.headers.get('x-forwarded-for') ||
+    request.headers.get('x-real-ip') ||
+    'unknown';
+
+  requestLogger.info('Screenshot request received', {
+    ip,
+    url: request.url,
+  });
+
   if (!checkRateLimit(ip)) {
-    return NextResponse.json(
-      { error: 'Rate limit exceeded. Try again later.' },
-      { status: 429 },
+    requestLogger.warn('Rate limit exceeded', { ip });
+    const { response, status } = createErrorResponse(
+      ErrorCode.RATE_LIMIT_EXCEEDED,
+      'Rate limit exceeded. Try again later.',
+      HttpStatus.TOO_MANY_REQUESTS,
+      undefined,
+      correlationId,
     );
+    return NextResponse.json(response, { status });
   }
 
   try {
     const body = await request.json();
-    const validatedData = ScreenshotRequestSchema.parse(body);
+    const validatedData = EnhancedScreenshotRequestSchema.parse(body);
 
     const {
       url,
@@ -83,36 +86,59 @@ export async function POST(request: NextRequest) {
       `${id}.png`,
     );
 
-    console.log(`Taking screenshot of ${url} with resolution ${resolution}...`);
+    requestLogger.info('Starting screenshot capture', {
+      url,
+      userAgent,
+      screenshotId: id,
+    });
+
     const { takeScreenshot } = await import('../../../../lib/screenshot');
 
-    const screenshotOptions: any = {
+    const screenshotOptions: Omit<ScreenshotOptions, 'url' | 'outputPath'> = {
       resolution,
       enableAdblock,
+      timeout: config.SCREENSHOT_TIMEOUT,
+      ...(userAgent && { userAgent }),
     };
-    if (userAgent) {
-      screenshotOptions.userAgent = userAgent;
-    }
 
     await takeScreenshot(url, outputPath, screenshotOptions);
 
-    return NextResponse.json({ id });
+    const duration = Date.now() - startTime;
+    requestLogger.info('Screenshot completed successfully', {
+      screenshotId: id,
+      duration,
+    });
+
+    const { response, status } = createSuccessResponse({ id });
+    return NextResponse.json(response, { status });
   } catch (error) {
+    const duration = Date.now() - startTime;
+
     if (error instanceof z.ZodError) {
-      console.error('Validation error:', error.issues);
-      return NextResponse.json(
-        {
-          error: error.issues[0]?.message || 'Invalid input',
-          details: error.issues,
-        },
-        { status: 400 },
+      requestLogger.error('Validation error', error, {
+        validationErrors: error.issues,
+        duration,
+      });
+      const { response, status } = createErrorResponse(
+        ErrorCode.VALIDATION_ERROR,
+        error.issues[0]?.message || 'Invalid input',
+        HttpStatus.BAD_REQUEST,
+        { validationErrors: error.issues },
+        correlationId,
       );
+      return NextResponse.json(response, { status });
     }
 
-    console.error('Error taking screenshot:', error);
-    return NextResponse.json(
-      { error: 'Failed to take screenshot' },
-      { status: 500 },
+    requestLogger.error('Screenshot capture failed', error as Error, {
+      duration,
+    });
+    const { response, status } = createErrorResponse(
+      ErrorCode.SCREENSHOT_FAILED,
+      'Failed to take screenshot',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+      undefined,
+      correlationId,
     );
+    return NextResponse.json(response, { status });
   }
 }
