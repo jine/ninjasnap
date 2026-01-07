@@ -2,12 +2,12 @@
 
 ## Project Overview
 
-**NinjaSnap v2.0.2** is an enterprise-grade web screenshot capture tool with ninja-like stealth and precision. Built with modern web technologies, it provides undetectable screenshot capture through a sleek, dark-themed interface.
+**NinjaSnap v3.2.0** is an enterprise-grade web screenshot capture tool with ninja-like stealth and precision. Built with modern web technologies, it provides undetectable screenshot capture through a sleek, dark-themed interface.
 
 ### Key Technologies
 
-- **Frontend**: React 19, Next.js 16, TypeScript, Tailwind CSS
-- **Backend**: Next.js API routes, Node.js 22
+- **Frontend**: React 19, Next.js 16, TypeScript, Tailwind CSS with design tokens
+- **Backend**: Next.js API routes, Node.js with enhanced logging
 - **Browser Automation**: Puppeteer with stealth plugins
 - **Containerization**: Docker with multi-stage builds
 - **Testing**: Jest with 40+ comprehensive tests
@@ -17,8 +17,8 @@
 
 - 🥷 Dark ninja-themed UI with enterprise-grade design
 - Undetectable screenshot capture with browser stealth
-- 6 resolution options (desktop to mobile)
-- 7 user agent configurations with auto-switching
+- 6 resolution options including 4K UHD and Ultrawide
+- 4 user agent configurations with auto-switching
 - Ad blocker integration (uBlock Origin)
 - Real-time progress feedback
 - Accessibility WCAG 2.1 AA compliance
@@ -293,6 +293,11 @@ curl http://localhost:42069/api/health
 
 ## Version History
 
+- **v3.2.0** (2026-01-07): Complete design token implementation and validation, comprehensive design system documentation
+- **v3.1.0** (2026-01-07): Component architecture refactoring, reusable components, TypeScript enhancements
+- **v3.0.2** (2026-01-07): Logger configuration fixes, build stability improvements
+- **v3.0.1** (2026-01-07): Repository merge fixes, UI dependencies resolution
+- **v3.0.0** (2026-01-07): Major UI/UX redesign with glassmorphism, purple/pink gradients, design token system
 - **v2.0.2** (2026-01-07): Docker caching optimization, performance improvements
 - **v2.0.1** (2026-01-07): Code formatting fixes, ESLint compliance
 - **v2.0.0** (2026-01-07): Major architecture overhaul, React 19, Next.js 16

@@ -21,10 +21,10 @@ Whether you need high-fidelity website captures, automated testing screenshots, 
 
 ### 🎯 Core Functionality
 
-- 🥷 Dark ninja-themed UI with emerald accents
+- 🥷 Dark ninja-themed UI with purple/pink glassmorphism effects
 - Web interface to submit URLs and capture screenshots
 - **Resolution Selection**: Choose from 6 resolutions including 4K UHD (3840x2160), Ultrawide (3440x1440), Desktop (1920x1080), Laptop (1366x768), Tablet (768x1024), and Mobile (375x667)
-- **User Agent Customization**: Select from 7 predefined browser UAs with smart auto-switching
+- **User Agent Customization**: Select from 4 predefined browser UAs with smart auto-switching
 - **Adblock Option**: Enable uBlock Origin for cleaner screenshots
 - Unique links for each screenshot result
 
@@ -67,7 +67,7 @@ Whether you need high-fidelity website captures, automated testing screenshots, 
 - **Performance**: Browser connection pooling, service workers, HTTP caching
 - **Accessibility**: ARIA labels, screen reader support, keyboard navigation
 - **Security**: Content Security Policy, SSRF protection, input validation
-- **Styling**: Tailwind CSS with custom ninja color scheme
+- **Styling**: Tailwind CSS with comprehensive design token system and glassmorphism effects
 - **Language**: TypeScript with strict mode
 - **Containerization**: Docker with multi-stage builds
 - **Quality**: ESLint, Prettier, Jest testing (40+ tests), comprehensive coverage
