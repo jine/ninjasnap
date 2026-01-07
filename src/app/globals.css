@@ -133,54 +133,64 @@
   * {
     border-color: var(--border-default);
     outline: none;
+    font-family: inherit;
   }
 
   body {
     background: var(--bg-primary);
     color: var(--text-primary);
+    font-family: var(--font-primary);
   }
 
   /* Typography */
   html {
     font-size: 1rem;
+    font-family: var(--font-primary);
   }
 
   h1 {
+    font-family: var(--font-primary);
     font-size: var(--text-5xl);
     font-weight: var(--weight-bold);
     line-height: var(--leading-normal);
   }
 
   h2 {
+    font-family: var(--font-primary);
     font-size: var(--text-3xl);
     font-weight: var(--weight-bold);
     line-height: var(--leading-normal);
   }
 
   h3 {
+    font-family: var(--font-primary);
     font-size: var(--text-xl);
     font-weight: var(--weight-semibold);
     line-height: var(--leading-normal);
   }
 
   p {
+    font-family: var(--font-primary);
     font-size: var(--text-lg);
     line-height: var(--leading-relaxed);
   }
 
   label {
+    font-family: var(--font-primary);
     font-size: var(--text-base);
     font-weight: var(--weight-medium);
     line-height: var(--leading-normal);
   }
 
   button {
+    font-family: var(--font-primary);
     font-size: var(--text-lg);
     font-weight: var(--weight-semibold);
     line-height: var(--leading-normal);
   }
 
   input {
+    font-family: var(--font-primary);
     font-size: var(--text-base);
     font-weight: var(--weight-regular);
     line-height: var(--leading-normal);
