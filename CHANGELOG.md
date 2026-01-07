@@ -18,7 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **User agent customization** with 7 browser options and auto-switching for mobile
 - **Adblock option** with uBlock Origin integration
 - Input sanitization and 30-second timeout for security and performance
-- Resource blocking for faster page loading (blocks images, CSS, fonts)
 
 ### Changed
 - Renamed project to NinjaSnap with ninja-themed branding
