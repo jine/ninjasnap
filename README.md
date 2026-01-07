@@ -82,7 +82,7 @@ NinjaSnap has evolved from a simple CLI tool into a modern, enterprise-grade web
 ```bash
 # Run the development server
 npm run dev
-# Open http://localhost:3000
+# Open http://localhost:42069
 ```
 
 ### Using Docker
@@ -90,7 +90,7 @@ npm run dev
 ```bash
 # Build and run with Docker Compose
 docker-compose up --build
-# Access at http://localhost:3000
+# Access at http://localhost:42069
 ```
 
 ### Production
