@@ -83,18 +83,30 @@ export default function Home() {
     fetch('/api/screenshots')
       .then((res) => res.json())
       .then((data) => {
+        console.log('API Response:', data); // Debug logging
         // Transform API response to match Screenshot interface
-        const transformedData = data.map((item: any) => ({
-          id: item.id,
-          url: item.url, // This is the image URL from API, but we'll display it as website URL
-          resolution: 'Unknown', // API doesn't provide this
-          userAgent: 'Unknown', // API doesn't provide this
-          timestamp: new Date(item.createdAt), // Convert ISO string to Date object
-          imageUrl: item.url, // The API returns url as the image URL
-        }));
+        const transformedData = data.map((item: any) => {
+          console.log('Processing item:', item); // Debug logging
+          const timestamp = item.createdAt
+            ? new Date(item.createdAt)
+            : new Date();
+          console.log('Created timestamp:', timestamp); // Debug logging
+          return {
+            id: item.id || 'unknown',
+            url: item.url || '/unknown-url', // This is the image URL from API, but we'll display it as website URL
+            resolution: 'Unknown', // API doesn't provide this
+            userAgent: 'Unknown', // API doesn't provide this
+            timestamp: timestamp, // Convert ISO string to Date object
+            imageUrl: item.url || '/placeholder.png', // The API returns url as the image URL
+          };
+        });
+        console.log('Transformed data:', transformedData); // Debug logging
         setScreenshots(transformedData);
       })
-      .catch((err) => console.error('Failed to load screenshots:', err));
+      .catch((err) => {
+        console.error('Failed to load screenshots:', err);
+        setScreenshots([]); // Ensure we have an empty array on error
+      });
   }, []);
 
   const validateUrl = (value: string) => {

@@ -6,7 +6,7 @@ interface Screenshot {
   url: string; // Website URL (may be unknown from API)
   resolution: string; // May be "Unknown" if not available
   userAgent: string; // May be "Unknown" if not available
-  timestamp: Date;
+  timestamp: Date | string | null | undefined; // Allow multiple types for robustness
   imageUrl: string;
 }
 
@@ -67,9 +67,33 @@ export const ScreenshotGrid = ({ screenshots }: ScreenshotGridProps) => {
                   </div>
                 )}
                 <div className="text-xs text-purple-300">
-                  {screenshot.timestamp
-                    ? screenshot.timestamp.toLocaleString()
-                    : 'Unknown date'}
+                  {(() => {
+                    try {
+                      if (!screenshot.timestamp) return 'Unknown date';
+
+                      // Handle different timestamp types
+                      let date: Date;
+                      if (screenshot.timestamp instanceof Date) {
+                        date = screenshot.timestamp;
+                      } else if (typeof screenshot.timestamp === 'string') {
+                        date = new Date(screenshot.timestamp);
+                      } else {
+                        return 'Unknown date';
+                      }
+
+                      // Check if date is valid
+                      if (isNaN(date.getTime())) return 'Invalid date';
+
+                      return date.toLocaleString();
+                    } catch (error) {
+                      console.error(
+                        'Error formatting timestamp:',
+                        error,
+                        screenshot.timestamp,
+                      );
+                      return 'Unknown date';
+                    }
+                  })()}
                 </div>
               </div>
               <div className="flex gap-2">
