@@ -182,7 +182,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
+      <div className="container mx-auto px-4 py-12 max-w-6xl">
         <Header />
 
         <FormCard>
