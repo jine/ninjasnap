@@ -5,6 +5,30 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.2] - 2026-01-07
+
+### Fixed
+
+- **Logging Format**: Fixed winston logger configuration to prevent duplicated messages in console output
+- **Console Output**: Cleaned up logging format for better readability in Docker containers
+
+### Technical
+
+- **Winston Configuration**: Separated console and file logging formats for optimal output
+
+## [3.0.1] - 2026-01-07
+
+### Changed
+
+- **Repository Merge**: Merged remote changes and resolved divergent branches
+- **UI Dependencies**: Added missing UI library dependencies (lucide-react, @radix-ui, etc.)
+- **Build Fixes**: Resolved lint and typecheck issues for production builds
+
+### Technical
+
+- **Package Updates**: Updated package.json with required dependencies for UI components
+- **Docker Builds**: Ensured successful container builds with all dependencies
+
 ## [3.0.0] - 2026-01-07
 
 ### Major Changes
