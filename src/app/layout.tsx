@@ -3,7 +3,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: '🥷 NinjaSnap - Stealth Screenshot Tool',
-  description: 'Take undetectable screenshots of websites with ninja-like precision',
+  description:
+    'Take undetectable screenshots of websites with ninja-like precision',
 };
 
 export default function RootLayout({

@@ -14,6 +14,16 @@ export default [
       globals: {
         console: 'readonly',
         process: 'readonly',
+        // Browser globals for client-side code
+        window: 'readonly',
+        document: 'readonly',
+        fetch: 'readonly',
+        setTimeout: 'readonly',
+        React: 'readonly',
+        HTMLElement: 'readonly',
+        HTMLSelectElement: 'readonly',
+        Event: 'readonly',
+        EventTarget: 'readonly',
       },
     },
     plugins: {

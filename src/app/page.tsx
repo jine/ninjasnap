@@ -8,23 +8,53 @@ const RESOLUTIONS = [
   '1280x720',
   '1024x768',
   '768x1024',
-  '375x667'
+  '375x667',
 ];
 
 const USER_AGENTS = [
-  { label: 'Chrome 120 (Desktop)', value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' },
-  { label: 'Firefox 121 (Desktop)', value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0' },
-  { label: 'Safari 17 (Desktop)', value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15' },
-  { label: 'Edge 120 (Desktop)', value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0' },
-  { label: 'iPhone Safari (iOS 17)', value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1' },
-  { label: 'Android Chrome', value: 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36' },
-  { label: 'Samsung Internet', value: 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/18.0 Chrome/120.0.0.0 Mobile Safari/537.36' }
+  {
+    label: 'Chrome 120 (Desktop)',
+    value:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  },
+  {
+    label: 'Firefox 121 (Desktop)',
+    value:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+  },
+  {
+    label: 'Safari 17 (Desktop)',
+    value:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15',
+  },
+  {
+    label: 'Edge 120 (Desktop)',
+    value:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
+  },
+  {
+    label: 'iPhone Safari (iOS 17)',
+    value:
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1',
+  },
+  {
+    label: 'Android Chrome',
+    value:
+      'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+  },
+  {
+    label: 'Samsung Internet',
+    value:
+      'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/18.0 Chrome/120.0.0.0 Mobile Safari/537.36',
+  },
 ];
 
 export default function Home() {
   const [url, setUrl] = useState('');
   const [resolution, setResolution] = useState('1280x720');
-  const [userAgent, setUserAgent] = useState('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+  const [userAgent, setUserAgent] = useState(
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  );
   const [enableAdblock, setEnableAdblock] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -37,11 +67,15 @@ export default function Home() {
 
     if (!userManuallyChangedUA) {
       if (isMobileResolution) {
-        setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1');
+        setUserAgent(
+          'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1',
+        );
         setNotification('User agent updated for mobile compatibility');
         setTimeout(() => setNotification(''), 3000);
       } else {
-        setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+        setUserAgent(
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        );
         setNotification('User agent updated for desktop');
         setTimeout(() => setNotification(''), 3000);
       }
@@ -92,7 +126,9 @@ export default function Home() {
       <h1 className="text-3xl font-bold text-center mb-6 text-emerald-400 flex items-center justify-center gap-2">
         🥷 NinjaSnap
       </h1>
-      <p className="text-center text-gray-300 mb-6">Stealthy screenshot capture</p>
+      <p className="text-center text-gray-300 mb-6">
+        Stealthy screenshot capture
+      </p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <input
@@ -106,27 +142,35 @@ export default function Home() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Resolution</label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Resolution
+          </label>
           <select
             value={resolution}
             onChange={handleResolutionChange}
             className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
           >
-            {RESOLUTIONS.map(res => (
-              <option key={res} value={res}>{res}</option>
+            {RESOLUTIONS.map((res) => (
+              <option key={res} value={res}>
+                {res}
+              </option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">User Agent</label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            User Agent
+          </label>
           <select
             value={userAgent}
             onChange={handleUserAgentChange}
             className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
           >
-            {USER_AGENTS.map(ua => (
-              <option key={ua.value} value={ua.value}>{ua.label}</option>
+            {USER_AGENTS.map((ua) => (
+              <option key={ua.value} value={ua.value}>
+                {ua.label}
+              </option>
             ))}
           </select>
         </div>
@@ -158,7 +202,11 @@ export default function Home() {
           {notification}
         </div>
       )}
-      {error && <p className="text-red-400 text-center mt-4 bg-red-900/20 p-2 rounded">{error}</p>}
+      {error && (
+        <p className="text-red-400 text-center mt-4 bg-red-900/20 p-2 rounded">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
