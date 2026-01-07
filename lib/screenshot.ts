@@ -79,6 +79,18 @@ export async function takeScreenshot(
 
     await page.setViewport({ width: finalWidth, height: finalHeight });
 
+    // Block unnecessary resources for faster loading
+    await page.setRequestInterception(true);
+    page.on('request', (request) => {
+      const resourceType = request.resourceType();
+      // Block images, stylesheets, fonts, and other media to speed up loading
+      if (['image', 'stylesheet', 'font', 'media'].includes(resourceType)) {
+        request.abort();
+      } else {
+        request.continue();
+      }
+    });
+
     await page.goto(url, { waitUntil, timeout: 30000 });
 
     await page.screenshot({

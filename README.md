@@ -13,6 +13,7 @@ A stealthy web screenshot tool with ninja-like precision, built with Next.js, Re
 - Uses puppeteer-extra with stealth plugin for undetectable browsing
 - Built with Next.js 13+ app router and TypeScript
 - Dockerized for easy deployment
+- Optimized performance with resource blocking and 30s timeout
 - Modern 2026 best practices
 
 ## Tech Stack
