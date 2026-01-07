@@ -82,7 +82,18 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/screenshots')
       .then((res) => res.json())
-      .then((data) => setScreenshots(data))
+      .then((data) => {
+        // Transform API response to match Screenshot interface
+        const transformedData = data.map((item: any) => ({
+          id: item.id,
+          url: item.url, // This is the image URL from API, but we'll display it as website URL
+          resolution: 'Unknown', // API doesn't provide this
+          userAgent: 'Unknown', // API doesn't provide this
+          timestamp: new Date(item.createdAt), // Convert ISO string to Date object
+          imageUrl: item.url, // The API returns url as the image URL
+        }));
+        setScreenshots(transformedData);
+      })
       .catch((err) => console.error('Failed to load screenshots:', err));
   }, []);
 

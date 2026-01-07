@@ -3,9 +3,9 @@ import { Button } from './ui/button';
 
 interface Screenshot {
   id: string;
-  url: string;
-  resolution: string;
-  userAgent: string;
+  url: string; // Website URL (may be unknown from API)
+  resolution: string; // May be "Unknown" if not available
+  userAgent: string; // May be "Unknown" if not available
   timestamp: Date;
   imageUrl: string;
 }
@@ -44,24 +44,32 @@ export const ScreenshotGrid = ({ screenshots }: ScreenshotGridProps) => {
             </div>
             <div className="p-4">
               <div className="text-white font-medium truncate mb-2">
-                {screenshot.url}
+                {screenshot.url === screenshot.imageUrl
+                  ? `Screenshot ${screenshot.id}`
+                  : screenshot.url}
               </div>
               <div className="text-sm text-purple-200 space-y-1 mb-3">
-                <div className="flex items-center gap-2">
-                  <Monitor className="w-4 h-4" />
-                  <span>{screenshot.resolution}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Chrome className="w-4 h-4" />
-                  <span>
-                    {
-                      userAgents.find((a) => a.value === screenshot.userAgent)
-                        ?.label
-                    }
-                  </span>
-                </div>
+                {screenshot.resolution !== 'Unknown' && (
+                  <div className="flex items-center gap-2">
+                    <Monitor className="w-4 h-4" />
+                    <span>{screenshot.resolution}</span>
+                  </div>
+                )}
+                {screenshot.userAgent !== 'Unknown' && (
+                  <div className="flex items-center gap-2">
+                    <Chrome className="w-4 h-4" />
+                    <span>
+                      {
+                        userAgents.find((a) => a.value === screenshot.userAgent)
+                          ?.label
+                      }
+                    </span>
+                  </div>
+                )}
                 <div className="text-xs text-purple-300">
-                  {screenshot.timestamp.toLocaleString()}
+                  {screenshot.timestamp
+                    ? screenshot.timestamp.toLocaleString()
+                    : 'Unknown date'}
                 </div>
               </div>
               <div className="flex gap-2">
