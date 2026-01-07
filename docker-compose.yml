@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  screenshot:
+    build: .
+    container_name: screenshot-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./public/screenshots:/app/public/screenshots
+    # For production, use:
+    # command: ["npm", "start"]
