@@ -17,13 +17,25 @@ export default [
         // Browser globals for client-side code
         window: 'readonly',
         document: 'readonly',
+        navigator: 'readonly',
         fetch: 'readonly',
         setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        indexedDB: 'readonly',
+        IDBDatabase: 'readonly',
+        IDBOpenDBRequest: 'readonly',
+        Element: 'readonly',
+        IntersectionObserver: 'readonly',
+        IntersectionObserverInit: 'readonly',
         React: 'readonly',
         HTMLElement: 'readonly',
         HTMLSelectElement: 'readonly',
         Event: 'readonly',
         EventTarget: 'readonly',
+        // Node.js globals for server-side code
+        NodeJS: 'readonly',
       },
     },
     plugins: {
@@ -33,7 +45,10 @@ export default [
     rules: {
       ...tseslint.configs.recommended.rules,
       'prettier/prettier': 'error',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_' },
+      ],
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
     },

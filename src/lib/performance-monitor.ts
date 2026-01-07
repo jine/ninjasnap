@@ -40,7 +40,8 @@ export class PerformanceMonitor {
     }
 
     // Log significant metrics
-    if (value > 10000) { // Log operations taking more than 10 seconds
+    if (value > 10000) {
+      // Log operations taking more than 10 seconds
       console.warn(`Performance: ${name} took ${value}ms`, tags);
     }
   }
@@ -69,7 +70,8 @@ export class PerformanceMonitor {
   /**
    * Get performance statistics
    */
-  getStats(timeRange = 3600000): { // Last hour by default
+  getStats(timeRange = 3600000): {
+    // Last hour by default
     averageDuration: number;
     totalOperations: number;
     successRate: number;
@@ -77,28 +79,36 @@ export class PerformanceMonitor {
     errorRate: number;
   } {
     const now = Date.now();
-    const recentMetrics = this.metrics.filter(m => now - m.timestamp < timeRange);
+    const recentMetrics = this.metrics.filter(
+      (m) => now - m.timestamp < timeRange,
+    );
 
     const screenshotDurations = recentMetrics
-      .filter(m => m.name === 'screenshot.duration')
-      .map(m => m.value)
+      .filter((m) => m.name === 'screenshot.duration')
+      .map((m) => m.value)
       .sort((a, b) => a - b);
 
     const totalOperations = screenshotDurations.length;
     const successfulOperations = recentMetrics.filter(
-      m => m.name === 'screenshot.duration' && m.tags?.success === 'true'
+      (m) => m.name === 'screenshot.duration' && m.tags?.success === 'true',
     ).length;
 
-    const averageDuration = totalOperations > 0
-      ? screenshotDurations.reduce((sum, duration) => sum + duration, 0) / totalOperations
-      : 0;
+    const averageDuration =
+      totalOperations > 0
+        ? screenshotDurations.reduce((sum, duration) => sum + duration, 0) /
+          totalOperations
+        : 0;
 
     const p95Index = Math.floor(screenshotDurations.length * 0.95);
     const p95Duration = screenshotDurations[p95Index] || 0;
 
-    const errorCount = recentMetrics.filter(m => m.name === 'screenshot.error').length;
-    const errorRate = totalOperations > 0 ? (errorCount / totalOperations) * 100 : 0;
-    const successRate = totalOperations > 0 ? (successfulOperations / totalOperations) * 100 : 0;
+    const errorCount = recentMetrics.filter(
+      (m) => m.name === 'screenshot.error',
+    ).length;
+    const errorRate =
+      totalOperations > 0 ? (errorCount / totalOperations) * 100 : 0;
+    const successRate =
+      totalOperations > 0 ? (successfulOperations / totalOperations) * 100 : 0;
 
     return {
       averageDuration,

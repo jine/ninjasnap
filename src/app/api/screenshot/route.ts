@@ -6,7 +6,12 @@ import { z } from 'zod';
 import { EnhancedScreenshotRequestSchema } from '../../../lib/validation';
 import { config } from '../../../lib/config';
 import { logger, generateCorrelationId } from '../../../lib/logger';
-import { createErrorResponse, createSuccessResponse, ErrorCode, HttpStatus } from '../../../lib/api-response';
+import {
+  createErrorResponse,
+  createSuccessResponse,
+  ErrorCode,
+  HttpStatus,
+} from '../../../lib/api-response';
 import { screenshotQueue } from '../../../lib/screenshot-queue';
 import { performanceMonitor } from '../../../lib/performance-monitor';
 
@@ -21,7 +26,10 @@ function checkRateLimit(ip: string): boolean {
   const userLimit = rateLimit.get(ip);
 
   if (!userLimit || now > userLimit.resetTime) {
-    rateLimit.set(ip, { count: 1, resetTime: now + config.RATE_LIMIT_WINDOW_MS });
+    rateLimit.set(ip, {
+      count: 1,
+      resetTime: now + config.RATE_LIMIT_WINDOW_MS,
+    });
     return true;
   }
 
@@ -56,7 +64,7 @@ export async function POST(request: NextRequest) {
       'Rate limit exceeded. Try again later.',
       HttpStatus.TOO_MANY_REQUESTS,
       undefined,
-      correlationId
+      correlationId,
     );
     return NextResponse.json(response, { status });
   }
@@ -152,7 +160,7 @@ export async function POST(request: NextRequest) {
         error.issues[0]?.message || 'Invalid input',
         HttpStatus.BAD_REQUEST,
         { validationErrors: error.issues },
-        correlationId
+        correlationId,
       );
       return NextResponse.json(response, { status });
     }
@@ -168,7 +176,7 @@ export async function POST(request: NextRequest) {
       'Failed to take screenshot',
       HttpStatus.INTERNAL_SERVER_ERROR,
       undefined,
-      correlationId
+      correlationId,
     );
     return NextResponse.json(response, { status });
   }

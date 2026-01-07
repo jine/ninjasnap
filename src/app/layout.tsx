@@ -5,13 +5,13 @@ import './globals.css';
 const ErrorBoundary = lazy(() =>
   import('../components/ErrorBoundary').then((mod) => ({
     default: mod.ErrorBoundary,
-  }))
+  })),
 );
 
 const ServiceWorkerRegistration = lazy(() =>
   import('../components/ServiceWorkerRegistration').then((mod) => ({
     default: mod.ServiceWorkerRegistration,
-  }))
+  })),
 );
 
 export const metadata: Metadata = {
@@ -28,8 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <style dangerouslySetInnerHTML={{
-          __html: `
+        <link rel="manifest" href="/manifest.json" />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
             /* Font loading optimization */
             @font-face {
               font-family: 'Inter';
@@ -88,7 +90,8 @@ export default function RootLayout({
               color: rgb(52 211 153);
             }
           `,
-        }} />
+          }}
+        />
       </head>
       <body className="bg-gray-900 min-h-screen text-white">
         <Suspense fallback={<div className="min-h-screen bg-gray-900" />}>

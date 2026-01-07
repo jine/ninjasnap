@@ -4,11 +4,7 @@ const STATIC_CACHE = 'ninjasnap-static-v1.0.0';
 const SCREENSHOT_CACHE = 'ninjasnap-screenshots-v1.0.0';
 
 // Assets to cache immediately
-const STATIC_ASSETS = [
-  '/',
-  '/favicon.ico',
-  '/ninja-favicon.svg',
-];
+const STATIC_ASSETS = ['/', '/favicon.ico', '/ninja-favicon.svg'];
 
 // Cache strategies
 const CACHE_STRATEGIES = {
@@ -29,7 +25,7 @@ self.addEventListener('install', (event) => {
 
       // Skip waiting to activate immediately
       self.skipWaiting();
-    })()
+    })(),
   );
 });
 
@@ -43,13 +39,13 @@ self.addEventListener('activate', (event) => {
       await Promise.all(
         cacheNames
           .filter((name) => name !== STATIC_CACHE && name !== SCREENSHOT_CACHE)
-          .map((name) => caches.delete(name))
+          .map((name) => caches.delete(name)),
       );
 
       console.log('Service Worker: Old caches cleaned up');
       // Take control of all clients immediately
       self.clients.claim();
-    })()
+    })(),
   );
 });
 
@@ -62,7 +58,7 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
 
   // Cache static assets with cache-first strategy
-  if (STATIC_ASSETS.some(asset => url.pathname === asset)) {
+  if (STATIC_ASSETS.some((asset) => url.pathname === asset)) {
     event.respondWith(cacheFirst(request, STATIC_CACHE));
     return;
   }
@@ -101,7 +97,9 @@ async function cacheFirst(request, cacheName = STATIC_CACHE) {
   } catch (error) {
     console.error('Cache-first strategy failed:', error);
     // Return offline fallback if available
-    return caches.match('/fallback.html') || new Response('Offline', { status: 503 });
+    return (
+      caches.match('/fallback.html') || new Response('Offline', { status: 503 })
+    );
   }
 }
 
@@ -128,7 +126,7 @@ async function networkFirst(request, cacheName = CACHE_NAME) {
     return new Response('Offline', {
       status: 503,
       statusText: 'Service Unavailable',
-      headers: { 'Content-Type': 'text/plain' }
+      headers: { 'Content-Type': 'text/plain' },
     });
   }
 }

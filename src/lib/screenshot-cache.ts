@@ -36,7 +36,9 @@ export class ScreenshotCache {
 
         // Create screenshot store
         if (!db.objectStoreNames.contains(SCREENSHOT_STORE)) {
-          const store = db.createObjectStore(SCREENSHOT_STORE, { keyPath: 'id' });
+          const store = db.createObjectStore(SCREENSHOT_STORE, {
+            keyPath: 'id',
+          });
           store.createIndex('timestamp', 'timestamp', { unique: false });
           store.createIndex('expiresAt', 'expiresAt', { unique: false });
         }
@@ -47,12 +49,14 @@ export class ScreenshotCache {
   /**
    * Cache a screenshot result
    */
-  async cacheScreenshot(screenshot: Omit<CachedScreenshot, 'expiresAt'>): Promise<void> {
+  async cacheScreenshot(
+    screenshot: Omit<CachedScreenshot, 'expiresAt'>,
+  ): Promise<void> {
     if (!this.db) await this.init();
 
     const cachedScreenshot: CachedScreenshot = {
       ...screenshot,
-      expiresAt: Date.now() + (24 * 60 * 60 * 1000), // 24 hours
+      expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
     };
 
     return new Promise((resolve, reject) => {
@@ -105,7 +109,7 @@ export class ScreenshotCache {
 
       request.onsuccess = () => {
         const results = request.result.filter(
-          (screenshot: CachedScreenshot) => screenshot.expiresAt > Date.now()
+          (screenshot: CachedScreenshot) => screenshot.expiresAt > Date.now(),
         );
         resolve(results);
       };
@@ -135,12 +139,15 @@ export class ScreenshotCache {
   async cleanup(): Promise<void> {
     if (!this.db) await this.init();
 
-    const expiredScreenshots = await this.getAllScreenshots().then(screenshots =>
-      screenshots.filter(screenshot => screenshot.expiresAt <= Date.now())
+    const expiredScreenshots = await this.getAllScreenshots().then(
+      (screenshots) =>
+        screenshots.filter((screenshot) => screenshot.expiresAt <= Date.now()),
     );
 
     await Promise.all(
-      expiredScreenshots.map(screenshot => this.deleteScreenshot(screenshot.id))
+      expiredScreenshots.map((screenshot) =>
+        this.deleteScreenshot(screenshot.id),
+      ),
     );
   }
 
@@ -169,7 +176,10 @@ if (typeof window !== 'undefined') {
   screenshotCache.init().catch(console.error);
 
   // Clean up expired entries periodically
-  setInterval(() => {
-    screenshotCache.cleanup().catch(console.error);
-  }, 60 * 60 * 1000); // Every hour
+  setInterval(
+    () => {
+      screenshotCache.cleanup().catch(console.error);
+    },
+    60 * 60 * 1000,
+  ); // Every hour
 }

@@ -5,6 +5,19 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-01-07
+
+### Removed
+
+- **PWA Offline Functionality**: Removed background sync and offline screenshot queuing features
+- **Development Artifacts**: Removed `AGENTS.md` and `BEST_PRACTICES_ANALYSIS.md` development documents
+- **Build Artifacts**: Cleaned up `tsconfig.tsbuildinfo` and `.next` directory from repository
+
+### Maintenance
+
+- **Code Cleanup**: Simplified service worker to basic caching functionality only
+- **Repository Hygiene**: Removed all development and build artifacts from version control
+
 ## [1.2.0] - 2026-01-07
 
 ### Maintenance

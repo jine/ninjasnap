@@ -15,9 +15,14 @@ export function ServiceWorkerRegistration() {
             const newWorker = registration.installing;
             if (newWorker) {
               newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                if (
+                  newWorker.state === 'installed' &&
+                  navigator.serviceWorker.controller
+                ) {
                   // New content is available, notify user
-                  console.log('New content is available and will be used when all tabs are closed.');
+                  console.log(
+                    'New content is available and will be used when all tabs are closed.',
+                  );
                 }
               });
             }

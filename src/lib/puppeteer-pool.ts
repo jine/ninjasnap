@@ -14,7 +14,8 @@ export class PuppeteerPool {
   private browserTimeout: number;
   private cleanupInterval: NodeJS.Timeout | null = null;
 
-  constructor(maxPoolSize = 3, browserTimeout = 300000) { // 5 minutes default
+  constructor(maxPoolSize = 3, browserTimeout = 300000) {
+    // 5 minutes default
     this.maxPoolSize = maxPoolSize;
     this.browserTimeout = browserTimeout;
     this.startCleanupInterval();
@@ -25,7 +26,7 @@ export class PuppeteerPool {
    */
   async acquire(): Promise<Browser> {
     // Try to find an available browser
-    let pooledBrowser = this.pool.find(b => !b.inUse);
+    let pooledBrowser = this.pool.find((b) => !b.inUse);
 
     if (pooledBrowser) {
       pooledBrowser.inUse = true;
@@ -48,12 +49,13 @@ export class PuppeteerPool {
     // Wait for an available browser (simple implementation)
     return new Promise((resolve, reject) => {
       const checkAvailable = () => {
-        const available = this.pool.find(b => !b.inUse);
+        const available = this.pool.find((b) => !b.inUse);
         if (available) {
           available.inUse = true;
           available.lastUsed = Date.now();
           resolve(available.browser);
-        } else if (Date.now() - startTime > 10000) { // 10 second timeout
+        } else if (Date.now() - startTime > 10000) {
+          // 10 second timeout
           reject(new Error('No browser available in pool'));
         } else {
           setTimeout(checkAvailable, 100);
@@ -69,7 +71,7 @@ export class PuppeteerPool {
    * Release a browser instance back to the pool
    */
   async release(browser: Browser): Promise<void> {
-    const pooledBrowser = this.pool.find(b => b.browser === browser);
+    const pooledBrowser = this.pool.find((b) => b.browser === browser);
     if (pooledBrowser) {
       pooledBrowser.inUse = false;
       pooledBrowser.lastUsed = Date.now();
@@ -118,7 +120,7 @@ export class PuppeteerPool {
         } catch (error) {
           console.error('Error closing browser:', error);
         }
-      })
+      }),
     );
 
     this.pool = [];
@@ -130,8 +132,8 @@ export class PuppeteerPool {
   getStats() {
     return {
       total: this.pool.length,
-      inUse: this.pool.filter(b => b.inUse).length,
-      available: this.pool.filter(b => !b.inUse).length,
+      inUse: this.pool.filter((b) => b.inUse).length,
+      available: this.pool.filter((b) => !b.inUse).length,
     };
   }
 
@@ -142,7 +144,10 @@ export class PuppeteerPool {
     this.cleanupInterval = setInterval(() => {
       const now = Date.now();
       this.pool = this.pool.filter(async (pooledBrowser) => {
-        if (!pooledBrowser.inUse && now - pooledBrowser.lastUsed > this.browserTimeout) {
+        if (
+          !pooledBrowser.inUse &&
+          now - pooledBrowser.lastUsed > this.browserTimeout
+        ) {
           try {
             await pooledBrowser.browser.close();
             return false; // Remove from pool

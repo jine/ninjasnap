@@ -5,7 +5,6 @@ interface PageProps {
   params: { id: string };
 }
 
-
 export default function ScreenshotPage({ params }: PageProps) {
   const { id } = params;
 
