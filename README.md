@@ -44,7 +44,6 @@ NinjaSnap has evolved from a simple CLI tool into a modern, enterprise-grade web
 ### ⚡ Performance & Security
 
 - **Browser Connection Pooling**: Faster screenshot generation through connection reuse
-- **Service Worker Caching**: Offline functionality and intelligent asset caching
 - **HTTP Caching Headers**: Optimized static asset delivery
 - **Performance Monitoring**: Built-in metrics and optimization tracking
 - **SSRF Protection**: Private network access blocking for security
@@ -170,6 +169,29 @@ ANALYZE=true npm run build
 npm run dev
 ```
 
+### 🤖 Agent Instructions
+
+When working on NinjaSnap, follow these guidelines:
+
+- **Security First**: Always prioritize security - validate inputs, prevent SSRF attacks, implement proper CSP
+- **Performance Focus**: Optimize for speed - use browser pooling, implement caching, monitor performance
+- **Accessibility Priority**: Ensure WCAG 2.1 AA compliance - add ARIA labels, keyboard navigation, screen reader support
+- **Modern React**: Leverage React 19 features - useOptimistic, Suspense, concurrent rendering
+- **Type Safety**: Maintain strict TypeScript usage - no `any` types, proper interfaces
+- **Clean Commits**: Use descriptive commit messages following conventional format
+- **Testing**: Write tests for new features, ensure linting passes before committing
+- **Documentation**: Update README and CHANGELOG for significant changes
+
+### 🔧 Development Workflow
+
+1. **Before Starting**: Run `npm run lint && npm run typecheck` to ensure clean baseline
+2. **Feature Development**: Use git branches for features, keep commits atomic
+3. **Testing**: Run full test suite with `npm test` before committing
+4. **Code Quality**: Use `npm run format` and `npm run lint:fix` for consistent formatting
+5. **Security Review**: Check for SSRF vulnerabilities and input validation
+6. **Performance Check**: Monitor for performance regressions
+7. **Accessibility Audit**: Verify WCAG compliance for new features
+
 ## Docker
 
 NinjaSnap runs in a multi-stage Docker build with Node.js Alpine and Chromium. Screenshots are stored in `public/screenshots/` and served statically through the ninja-themed interface.
@@ -192,12 +214,12 @@ NinjaSnap runs in a multi-stage Docker build with Node.js Alpine and Chromium. S
 │   └── api-response.ts        # Standardized API responses
 ├── public/
 │   ├── screenshots/           # Stored screenshots
-│   ├── sw.js                  # Service worker for caching
-│   └── manifest.json          # PWA manifest
+│   ├── sw.js                  # Service worker for basic caching
+│   └── ninja-favicon.svg      # Ninja-themed favicon
 ├── src/
 │   ├── components/
 │   │   ├── ErrorBoundary.tsx              # React error boundaries
-│   │   └── ServiceWorkerRegistration.tsx # PWA service worker
+│   │   └── ServiceWorkerRegistration.tsx # Service worker registration
 │   └── app/
 │       ├── api/
 │       │   ├── screenshot/
