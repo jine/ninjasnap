@@ -55,6 +55,9 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.32.1",
+    "@upstash/ratelimit": "^2.0.7",
+    "@upstash/redis": "^1.36.0",
     "next": "^16.1.1",
     "puppeteer": "^24.34.0",
     "puppeteer-extra": "^3.3.6",

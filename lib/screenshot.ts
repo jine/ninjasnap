@@ -2,9 +2,6 @@ import puppeteer from 'puppeteer-extra';
 import { Browser, Page } from 'puppeteer';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
-// Use stealth plugin
-puppeteer.use(StealthPlugin());
-
 export interface ScreenshotOptions {
   url: string;
   outputPath: string;
@@ -47,6 +44,9 @@ export async function takeScreenshot(
   let page: Page | null = null;
 
   try {
+    // Apply stealth plugin
+    puppeteer.use(StealthPlugin());
+
     const launchArgs = [
       '--no-sandbox',
       '--disable-setuid-sandbox',

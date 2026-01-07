@@ -33,7 +33,38 @@ const ScreenshotRequestSchema = z.object({
   enableAdblock: z.boolean().optional(),
 });
 
+// Simple in-memory rate limiting (for demo - use Redis in production)
+const rateLimit = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT = 10; // requests per window
+const WINDOW_MS = 60000; // 1 minute
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const userLimit = rateLimit.get(ip);
+
+  if (!userLimit || now > userLimit.resetTime) {
+    rateLimit.set(ip, { count: 1, resetTime: now + WINDOW_MS });
+    return true;
+  }
+
+  if (userLimit.count >= RATE_LIMIT) {
+    return false;
+  }
+
+  userLimit.count++;
+  return true;
+}
+
 export async function POST(request: NextRequest) {
+  // Rate limiting
+  const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded. Try again later.' },
+      { status: 429 },
+    );
+  }
+
   try {
     const body = await request.json();
     const validatedData = ScreenshotRequestSchema.parse(body);
@@ -55,11 +86,15 @@ export async function POST(request: NextRequest) {
     console.log(`Taking screenshot of ${url} with resolution ${resolution}...`);
     const { takeScreenshot } = await import('../../../../lib/screenshot');
 
-    await takeScreenshot(url, outputPath, {
+    const screenshotOptions: any = {
       resolution,
-      userAgent,
       enableAdblock,
-    } as any);
+    };
+    if (userAgent) {
+      screenshotOptions.userAgent = userAgent;
+    }
+
+    await takeScreenshot(url, outputPath, screenshotOptions);
 
     return NextResponse.json({ id });
   } catch (error) {

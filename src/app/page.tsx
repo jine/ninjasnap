@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const RESOLUTIONS = [
   '1920x1080',
@@ -60,6 +60,7 @@ export default function Home() {
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [userManuallyChangedUA, setUserManuallyChangedUA] = useState(false);
+  const errorRef = useRef<HTMLDivElement>(null);
 
   // Auto-switch user agent based on resolution
   useEffect(() => {
@@ -81,6 +82,13 @@ export default function Home() {
       }
     }
   }, [resolution, userManuallyChangedUA]);
+
+  // Focus management for errors
+  useEffect(() => {
+    if (error && errorRef.current) {
+      errorRef.current.focus();
+    }
+  }, [error]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,6 +129,13 @@ export default function Home() {
     setUserManuallyChangedUA(true);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !loading) {
+      e.preventDefault();
+      handleSubmit(e as unknown as React.FormEvent);
+    }
+  };
+
   return (
     <div className="max-w-md mx-auto mt-20 p-6 bg-gray-800 rounded-lg shadow-2xl border border-gray-700">
       <h1 className="text-3xl font-bold text-center mb-6 text-emerald-400 flex items-center justify-center gap-2">
@@ -129,25 +144,48 @@ export default function Home() {
       <p className="text-center text-gray-300 mb-6">
         Stealthy screenshot capture
       </p>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        onKeyDown={handleKeyDown}
+        className="space-y-4"
+        role="form"
+        aria-label="Screenshot capture form"
+      >
         <div>
+          <label
+            htmlFor="url-input"
+            className="block text-sm font-medium text-gray-300 mb-2"
+          >
+            Website URL
+          </label>
           <input
+            id="url-input"
             type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="Enter URL to capture..."
             required
+            aria-describedby="url-help"
             className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
           />
+          <p id="url-help" className="sr-only">
+            Enter a valid URL starting with http:// or https:// for screenshot
+            capture
+          </p>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label
+            htmlFor="resolution-select"
+            className="block text-sm font-medium text-gray-300 mb-2"
+          >
             Resolution
           </label>
           <select
+            id="resolution-select"
             value={resolution}
             onChange={handleResolutionChange}
+            aria-describedby="resolution-help"
             className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
           >
             {RESOLUTIONS.map((res) => (
@@ -156,15 +194,23 @@ export default function Home() {
               </option>
             ))}
           </select>
+          <p id="resolution-help" className="sr-only">
+            Choose the viewport resolution for the screenshot
+          </p>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label
+            htmlFor="user-agent-select"
+            className="block text-sm font-medium text-gray-300 mb-2"
+          >
             User Agent
           </label>
           <select
+            id="user-agent-select"
             value={userAgent}
             onChange={handleUserAgentChange}
+            aria-describedby="ua-help"
             className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
           >
             {USER_AGENTS.map((ua) => (
@@ -173,6 +219,9 @@ export default function Home() {
               </option>
             ))}
           </select>
+          <p id="ua-help" className="sr-only">
+            Select browser user agent - will auto-switch for mobile resolutions
+          </p>
         </div>
 
         <div className="flex items-center">
@@ -181,20 +230,30 @@ export default function Home() {
             id="adblock"
             checked={enableAdblock}
             onChange={(e) => setEnableAdblock(e.target.checked)}
+            aria-describedby="adblock-help"
             className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-600 rounded bg-gray-700"
           />
           <label htmlFor="adblock" className="ml-2 block text-sm text-gray-300">
             Enable uBlock Origin adblock
           </label>
+          <p id="adblock-help" className="sr-only">
+            Enable ad blocking for cleaner screenshots
+          </p>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-emerald-600 text-white py-3 px-4 rounded-md hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+          aria-describedby="submit-help"
+          className="w-full bg-emerald-600 text-white py-3 px-4 rounded-md hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
           {loading ? 'Capturing...' : '🗡️ Take Screenshot'}
         </button>
+        <p id="submit-help" className="sr-only">
+          {loading
+            ? 'Screenshot is being captured, please wait'
+            : 'Click to capture screenshot of the entered URL'}
+        </p>
       </form>
 
       {notification && (
@@ -203,9 +262,15 @@ export default function Home() {
         </div>
       )}
       {error && (
-        <p className="text-red-400 text-center mt-4 bg-red-900/20 p-2 rounded">
+        <div
+          ref={errorRef}
+          tabIndex={-1}
+          role="alert"
+          aria-live="polite"
+          className="text-red-400 text-center mt-4 bg-red-900/20 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+        >
           {error}
-        </p>
+        </div>
       )}
     </div>
   );
