@@ -14,25 +14,27 @@ export enum LogLevel {
 // Create winston logger
 const winstonLogger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json(),
-  ),
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize(),
-        winston.format.simple(),
+        winston.format.printf(({ level, message }) => `${level}: ${message}`),
       ),
     }),
     new winston.transports.File({
       filename: '/app/logs/ninjasnap.log',
-      format: winston.format.json(),
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
     }),
     new winston.transports.File({
       filename: '/app/logs/ninjasnap-error.log',
       level: 'error',
-      format: winston.format.json(),
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
     }),
   ],
 });
