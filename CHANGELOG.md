@@ -5,6 +5,21 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-01-07
+
+### Maintenance
+
+- **Repository Cleanup**: Removed development artifacts and build files from git tracking
+- **Git Hygiene**: Added `tsconfig.tsbuildinfo` to `.gitignore` and removed from repository
+- **Directory Cleanup**: Removed empty `screenshots/` directory from project root
+- **Build Optimization**: Ensured all build artifacts are properly ignored
+
+### Quality Assurance
+
+- **Artifact Audit**: Comprehensive check for development artifacts and temporary files
+- **Repository Health**: Verified clean git status and proper file tracking
+- **Build Verification**: Confirmed all files are properly ignored or tracked
+
 ## [1.1.0] - 2026-01-07
 
 ### Added
