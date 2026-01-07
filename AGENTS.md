@@ -75,10 +75,10 @@ docker compose ps
 # View logs
 docker compose logs -f
 
-# Test API
+# Test API (use github.com for testing as example.com may cause issues)
 curl -X POST http://localhost:42069/api/screenshot \
   -H "Content-Type: application/json" \
-  -d '{"url":"https://example.com","resolution":"1280x720","userAgent":"Mozilla/5.0...","enableAdblock":false}'
+  -d '{"url":"https://github.com","resolution":"1280x720","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36","enableAdblock":false}'
 
 # Rebuild and restart
 docker compose down && docker compose build --no-cache && docker compose up -d
