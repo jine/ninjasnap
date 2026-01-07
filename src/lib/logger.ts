@@ -11,32 +11,58 @@ export enum LogLevel {
   DEBUG = 'debug',
 }
 
-// Create winston logger
+// Create winston logger with conditional file transports
+const transports: winston.transport[] = [
+  new winston.transports.Console({
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.printf(({ level, message }) => `${level}: ${message}`),
+    ),
+  }),
+];
+
+// Only add file transports in runtime environment (not during build)
+if (
+  typeof window === 'undefined' &&
+  process.env.NODE_ENV !== 'production' &&
+  process.env.NODE_ENV !== 'test'
+) {
+  try {
+    // Create logs directory if it doesn't exist
+    const fs = require('fs');
+    const path = require('path');
+    const logsDir = path.join(process.cwd(), 'logs');
+
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+
+    transports.push(
+      new winston.transports.File({
+        filename: path.join(logsDir, 'ninjasnap.log'),
+        format: winston.format.combine(
+          winston.format.timestamp(),
+          winston.format.json(),
+        ),
+      }),
+      new winston.transports.File({
+        filename: path.join(logsDir, 'ninjasnap-error.log'),
+        level: 'error',
+        format: winston.format.combine(
+          winston.format.timestamp(),
+          winston.format.json(),
+        ),
+      }),
+    );
+  } catch (error) {
+    // Silently fail if we can't create log directory (e.g., during build)
+    console.warn('Could not initialize file logging:', error);
+  }
+}
+
 const winstonLogger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.printf(({ level, message }) => `${level}: ${message}`),
-      ),
-    }),
-    new winston.transports.File({
-      filename: '/app/logs/ninjasnap.log',
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
-      ),
-    }),
-    new winston.transports.File({
-      filename: '/app/logs/ninjasnap-error.log',
-      level: 'error',
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
-      ),
-    }),
-  ],
+  transports,
 });
 
 /**
