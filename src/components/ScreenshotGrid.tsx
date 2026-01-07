@@ -40,20 +40,20 @@ export const ScreenshotGrid = ({ screenshots }: ScreenshotGridProps) => {
             key={screenshot.id}
             className="overflow-hidden"
             style={{
-              background: 'var(--bg-card)',
-              backdropFilter: 'var(--blur-lg)',
-              border: '1px solid var(--border-default)',
-              borderRadius: 'var(--radius-md)',
-              boxShadow: 'var(--shadow-xl)',
+              background: 'var(--screenshot-card-bg)',
+              backdropFilter: 'var(--screenshot-card-backdrop)',
+              border: 'var(--screenshot-card-border)',
+              borderRadius: 'var(--screenshot-card-radius)',
+              boxShadow: 'var(--screenshot-card-shadow)',
               transition: 'box-shadow var(--transition-base)',
             }}
             onMouseEnter={(e) => {
               const card = e.currentTarget as HTMLElement;
-              card.style.boxShadow = 'var(--shadow-2xl)';
+              card.style.boxShadow = 'var(--screenshot-card-shadow-hover)';
             }}
             onMouseLeave={(e) => {
               const card = e.currentTarget as HTMLElement;
-              card.style.boxShadow = 'var(--shadow-xl)';
+              card.style.boxShadow = 'var(--screenshot-card-shadow)';
             }}
           >
             <div

@@ -62,7 +62,7 @@ export const UserAgentSelector = ({
           >
             <Icon
               className="w-6 h-6 mb-2 mx-auto"
-              style={{ width: '1.5rem', height: '1.5rem' }}
+              style={{ width: 'var(--icon-md)', height: 'var(--icon-md)' }}
             />
             <div
               className="text-sm font-medium"

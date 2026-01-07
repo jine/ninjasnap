@@ -105,18 +105,58 @@
 
   /* Component-specific tokens */
   --header-title-size: 3rem;
+  --header-title-color: #ffffff;
   --header-subtitle-size: 1.25rem;
+  --header-subtitle-color: #e9d5ff;
   --header-icon-size: 3rem;
+  --header-icon-color: #c084fc;
   --header-margin-bottom: 3rem;
+  --header-gap: 0.75rem;
+  --header-title-gap: 1rem;
 
   --form-card-bg: rgba(255, 255, 255, 0.1);
   --form-card-backdrop: blur(16px);
+  --form-card-border: 1px solid rgba(255, 255, 255, 0.2);
+  --form-card-radius: 1rem;
   --form-card-padding: 2rem;
+  --form-card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --form-card-margin-bottom: 3rem;
 
   --selection-button-padding: 1rem;
+  --selection-button-border-width: 2px;
+  --selection-button-border-default: rgba(255, 255, 255, 0.2);
+  --selection-button-border-selected: #a855f7;
+  --selection-button-bg-default: rgba(255, 255, 255, 0.05);
+  --selection-button-bg-selected: rgba(168, 85, 247, 0.2);
+  --selection-button-text-default: rgba(255, 255, 255, 0.8);
+  --selection-button-text-selected: #ffffff;
+
+  --capture-button-bg: linear-gradient(to right, #9333ea, #db2777);
+  --capture-button-bg-hover: linear-gradient(to right, #7e22ce, #be185d);
+  --capture-button-padding-y: 1rem;
+  --capture-button-padding-x: 1.5rem;
+  --capture-button-font-size: 1.125rem;
+  --capture-button-font-weight: 600;
+  --capture-button-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --capture-button-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+  --screenshot-card-bg: rgba(255, 255, 255, 0.1);
+  --screenshot-card-backdrop: blur(16px);
+  --screenshot-card-border: 1px solid rgba(255, 255, 255, 0.2);
+  --screenshot-card-radius: 0.75rem;
+  --screenshot-card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --screenshot-card-shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --screenshot-card-padding: 1rem;
+  --screenshot-card-image-bg: #1e293b;
 
   --action-button-primary-bg: #9333ea;
   --action-button-primary-bg-hover: #7e22ce;
+  --action-button-danger-bg: #dc2626;
+  --action-button-danger-bg-hover: #b91c1c;
+  --action-button-padding-y: 0.5rem;
+  --action-button-padding-x: 0.75rem;
+  --action-button-font-size: 0.875rem;
+  --action-button-font-weight: 500;
 }
 
 @theme inline {
