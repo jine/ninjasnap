@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
       const queueWaitTime = screenshotStartTime - queueStartTime;
 
       try {
-        const { takeScreenshot } = await import('../../../../lib/screenshot');
+        const { takeScreenshot } = await import('../../../lib/screenshot');
 
         const screenshotOptions: any = {
           resolution,
