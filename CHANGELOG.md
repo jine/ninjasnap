@@ -5,6 +5,26 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2026-01-07
+
+### Added
+
+- **Design System Documentation**: Comprehensive DESIGN.md with complete design token system covering colors, typography, spacing, components, and accessibility standards
+- **Component Architecture**: Refactored monolithic page.tsx into reusable components (Header, ResolutionSelector, UserAgentSelector, FormCard, ScreenshotGrid)
+- **Design Token Implementation**: All design tokens properly implemented as CSS custom properties and component styles
+
+### Refactored
+
+- **Component Structure**: Improved code organization with single-responsibility components for better maintainability
+- **Type Safety**: Enhanced TypeScript interfaces and proper component prop typing
+- **Code Quality**: Clean, linted, and formatted codebase with consistent patterns
+
+### Technical
+
+- **Component Reusability**: Created modular, focused components that can be easily maintained and extended
+- **Design Token Integration**: Full integration of design system tokens across all components
+- **Build Optimization**: Streamlined build process with proper component separation
+
 ## [3.0.2] - 2026-01-07
 
 ### Fixed
