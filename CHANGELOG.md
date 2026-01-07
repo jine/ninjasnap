@@ -5,6 +5,14 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2026-01-07
+
+### Performance
+
+- **Docker Build Optimization**: Improved development workflow by enabling Docker layer caching by default
+- **Build Speed**: Faster development rebuilds using Docker cache instead of --no-cache
+- **Documentation**: Updated AGENTS.md with optimized Docker commands for development
+
 ## [2.0.1] - 2026-01-07
 
 ### Fixed
