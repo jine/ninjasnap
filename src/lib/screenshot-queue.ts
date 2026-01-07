@@ -1,7 +1,7 @@
-interface QueuedTask<T = any> {
+interface QueuedTask {
   id: string;
-  execute: () => Promise<T>;
-  resolve: (value: T) => void;
+  execute: () => Promise<unknown>;
+  resolve: (value: unknown) => void;
   reject: (error: Error) => void;
   priority: number;
   createdAt: number;
@@ -25,10 +25,10 @@ export class ScreenshotQueue {
    */
   async add<T>(id: string, task: () => Promise<T>, priority = 0): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      const queuedTask: QueuedTask<T> = {
+      const queuedTask: QueuedTask = {
         id,
-        execute: task,
-        resolve,
+        execute: task as () => Promise<unknown>,
+        resolve: resolve as (value: unknown) => void,
         reject,
         priority,
         createdAt: Date.now(),
@@ -67,7 +67,7 @@ export class ScreenshotQueue {
       const result = await task.execute();
       task.resolve(result);
     } catch (error) {
-      task.reject(error as Error);
+      task.reject(error instanceof Error ? error : new Error(String(error)));
     } finally {
       this.processingCount--;
       this.processing.delete(task.id);
@@ -82,12 +82,9 @@ export class ScreenshotQueue {
   cancel(id: string): boolean {
     const index = this.queue.findIndex((task) => task.id === id);
     if (index !== -1) {
-      const task = this.queue[index];
-      if (task) {
-        this.queue.splice(index, 1);
-        task.reject(new Error('Task cancelled'));
-        return true;
-      }
+      const task = this.queue.splice(index, 1)[0]!;
+      task.reject(new Error('Task cancelled'));
+      return true;
     }
     return false;
   }

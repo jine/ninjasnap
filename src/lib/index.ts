@@ -3,7 +3,7 @@ export type {
   ScreenshotOptions,
   ScreenshotResolution,
   UserAgent,
-} from '../../lib/screenshot';
+} from './screenshot';
 
 // API response types
 export type { ApiErrorResponse, ApiSuccessResponse } from './api-response';

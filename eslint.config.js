@@ -31,9 +31,11 @@ export default [
         IntersectionObserverInit: 'readonly',
         React: 'readonly',
         HTMLElement: 'readonly',
+        HTMLDivElement: 'readonly',
         HTMLSelectElement: 'readonly',
         Event: 'readonly',
         EventTarget: 'readonly',
+        URL: 'readonly',
         // Node.js globals for server-side code
         NodeJS: 'readonly',
       },
@@ -50,7 +52,7 @@ export default [
         { argsIgnorePattern: '^_' },
       ],
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
     },
   },
   // Test files configuration
@@ -89,7 +91,7 @@ export default [
         { argsIgnorePattern: '^_' },
       ],
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       // Relax some rules for tests
       '@typescript-eslint/no-non-null-assertion': 'off',
     },

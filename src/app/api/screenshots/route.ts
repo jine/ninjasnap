@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { logger } from '../../../lib/logger';
+import { logger } from '@/lib/logger';
 
 export async function GET() {
   try {

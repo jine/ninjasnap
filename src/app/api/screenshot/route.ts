@@ -3,17 +3,18 @@ import path from 'path';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import { EnhancedScreenshotRequestSchema } from '../../../lib/validation';
-import { config } from '../../../lib/config';
-import { logger, generateCorrelationId } from '../../../lib/logger';
+import { EnhancedScreenshotRequestSchema } from '@/lib/validation';
+import { config } from '@/lib/config';
+import { logger, generateCorrelationId } from '@/lib/logger';
 import {
   createErrorResponse,
   createSuccessResponse,
   ErrorCode,
   HttpStatus,
-} from '../../../lib/api-response';
-import { screenshotQueue } from '../../../lib/screenshot-queue';
-import { performanceMonitor } from '../../../lib/performance-monitor';
+} from '@/lib/api-response';
+import { screenshotQueue } from '@/lib/screenshot-queue';
+import { performanceMonitor } from '@/lib/performance-monitor';
+import type { ScreenshotOptions } from '@/lib/screenshot';
 
 // Simple in-memory rate limiting (for demo - use Redis in production)
 const rateLimit = new Map<string, { count: number; resetTime: number }>();
@@ -96,12 +97,13 @@ export async function POST(request: NextRequest) {
       const queueWaitTime = screenshotStartTime - queueStartTime;
 
       try {
-        const { takeScreenshot } = await import('../../../lib/screenshot');
+        const { takeScreenshot } = await import('@/lib/screenshot');
 
-        const screenshotOptions: any = {
-          resolution,
-          timeout: config.SCREENSHOT_TIMEOUT,
-        };
+        const screenshotOptions: Omit<ScreenshotOptions, 'url' | 'outputPath'> =
+          {
+            resolution,
+            timeout: config.SCREENSHOT_TIMEOUT,
+          };
         if (userAgent) {
           screenshotOptions.userAgent = userAgent;
         }

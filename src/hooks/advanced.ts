@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { performanceMonitor } from '../lib/performance-monitor';
+import { performanceMonitor } from '@/lib/performance-monitor';
 
 // Custom hook for performance monitoring
 export function usePerformanceMonitoring(name: string) {

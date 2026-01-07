@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { URL } from 'url';
-import type { ScreenshotResolution, UserAgent } from '../../lib/screenshot';
+import type { ScreenshotResolution, UserAgent } from './screenshot';
 
 /**
  * Validates if a URL is safe to access (blocks localhost, private IPs, etc.)
@@ -30,8 +30,7 @@ export function isSafeUrl(url: string): boolean {
     const match = hostname.match(ipRegex);
 
     if (match) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_, a, b] = match.map(Number);
+      const [, a, b] = match.map(Number);
 
       // Block private IPv4 ranges
       if (

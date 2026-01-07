@@ -1,11 +1,13 @@
 // Global type definitions for the NinjaSnap application
 
 // Screenshot related types
-export type {
+import type {
   ScreenshotOptions,
   ScreenshotResolution,
   UserAgent,
-} from '../../lib/screenshot';
+} from '../lib/screenshot';
+
+export type { ScreenshotOptions, ScreenshotResolution, UserAgent };
 
 // API related types
 export type { ApiErrorResponse, ApiSuccessResponse } from '../lib/api-response';
@@ -42,8 +44,8 @@ export { config } from '../lib/config';
 // React component props types
 export interface ScreenshotFormData {
   url: string;
-  resolution: import('../../lib/screenshot').ScreenshotResolution;
-  userAgent: import('../../lib/screenshot').UserAgent;
+  resolution: ScreenshotResolution;
+  userAgent: UserAgent;
   enableAdblock: boolean;
 }
 

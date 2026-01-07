@@ -15,8 +15,7 @@ export interface ApiErrorResponse {
 /**
  * Standard API success response interface
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface ApiSuccessResponse<T = any> {
+export interface ApiSuccessResponse<T = unknown> {
   success: true;
   data: T;
   timestamp: string;
