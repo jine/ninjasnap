@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+dist
+.env
+.git
+.nyc_output
+coverage
+.coverage
+.idea
+.vscode
+*.tgz
+*.tar.gz
+public/screenshots/
+.next
+tsconfig.tsbuildinfo
