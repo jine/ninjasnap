@@ -12,7 +12,7 @@ NinjaSnap has evolved from a simple CLI tool into a modern, enterprise-grade web
 - ✅ **Enterprise Security**: CSP, SSRF protection, input validation, correlation IDs
 - ✅ **Performance Excellence**: 40% faster screenshots, browser pooling, service workers
 - ✅ **Accessibility Champion**: WCAG 2.1 AA compliant, screen reader support
-- ✅ **Production Ready**: Docker deployment, monitoring, comprehensive testing
+- ✅ **Production Ready**: Docker deployment, monitoring, comprehensive testing (40+ tests)
 - ✅ **Developer Experience**: Advanced hooks, type safety, modern tooling
 
 ## ✨ Features
@@ -68,7 +68,7 @@ NinjaSnap has evolved from a simple CLI tool into a modern, enterprise-grade web
 - **Styling**: Tailwind CSS with custom ninja color scheme
 - **Language**: TypeScript with strict mode
 - **Containerization**: Docker with multi-stage builds
-- **Quality**: ESLint, Prettier, comprehensive testing
+- **Quality**: ESLint, Prettier, Jest testing (40+ tests), comprehensive coverage
 
 ## Installation
 
@@ -191,6 +191,27 @@ When working on NinjaSnap, follow these guidelines:
 5. **Security Review**: Check for SSRF vulnerabilities and input validation
 6. **Performance Check**: Monitor for performance regressions
 7. **Accessibility Audit**: Verify WCAG compliance for new features
+
+## 🧪 Testing
+
+NinjaSnap features comprehensive test coverage with 40+ tests across 5 test suites:
+
+- **Validation Tests**: SSRF protection, URL safety, input sanitization
+- **API Response Tests**: Success/error responses, HTTP status codes
+- **Performance Monitor Tests**: Metrics recording and statistics
+- **Queue Management Tests**: Concurrency control and task handling
+- **Type Safety Tests**: Interface validation and TypeScript compliance
+
+```bash
+# Run all tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run tests in watch mode
+npm run test:watch
+```
 
 ## Docker
 
