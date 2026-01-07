@@ -25,6 +25,8 @@ export interface LogEntry {
   validationErrors?: unknown[];
   componentStack?: string;
   errorBoundary?: string;
+  resolution?: string;
+  enableAdblock?: boolean;
   error?: {
     name: string;
     message: string;

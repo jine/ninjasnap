@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 
 describe('takeScreenshot', () => {
   it('should be a function', () => {
-    // Basic smoke test - just verify the module can be imported
+    // Basic smoke test - just verify module can be imported
     expect(typeof require('./screenshot').takeScreenshot).toBe('function');
   });
 

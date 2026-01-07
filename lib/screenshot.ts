@@ -1,6 +1,5 @@
-import puppeteer from 'puppeteer-extra';
 import { Browser, Page } from 'puppeteer';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import { puppeteerPool } from '../src/lib/puppeteer-pool';
 
 /**
  * Supported screenshot resolutions
@@ -69,19 +68,12 @@ export async function takeScreenshot(
   let page: Page | null = null;
 
   try {
-    // Apply stealth plugin
-    puppeteer.use(StealthPlugin());
-
-    const launchArgs = [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--no-first-run',
-      '--no-zygote',
-      '--single-process', // for Docker
-      '--disable-gpu',
-    ];
+    // Get browser from pool
+    browser = await puppeteerPool.acquire();
+    if (!browser) {
+      throw new Error('Failed to acquire browser from pool');
+    }
+    page = await browser.newPage();
 
     // Add adblock extension if enabled
     if (enableAdblock) {
@@ -89,13 +81,6 @@ export async function takeScreenshot(
       // For now, we'll skip extension loading as it requires additional setup
       console.log('Adblock requested but extension loading not implemented yet');
     }
-
-    browser = await puppeteer.launch({
-      headless: true,
-      args: launchArgs,
-    });
-
-    page = await browser.newPage();
 
     // Set user agent if provided
     if (userAgent) {
@@ -111,7 +96,19 @@ export async function takeScreenshot(
       fullPage,
     });
   } finally {
-    if (page) await page.close();
-    if (browser) await browser.close();
+    if (page) {
+      try {
+        await page.close();
+      } catch (error) {
+        console.error('Error closing page:', error);
+      }
+    }
+    if (browser) {
+      try {
+        await puppeteerPool.release(browser);
+      } catch (error) {
+        console.error('Error releasing browser to pool:', error);
+      }
+    }
   }
 }
