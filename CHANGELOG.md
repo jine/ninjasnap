@@ -5,6 +5,18 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.1] - 2026-01-07
+
+### Changed
+
+- **Layout Width**: Reduced main container max-width from 1280px to 768px for better content focus on large screens
+- **Screenshot Grid**: Implemented auto-fit responsive grid with 250px minimum column width, supporting 1-8 columns dynamically
+- **Container Class**: Removed Tailwind `container` class to allow custom max-width control
+
+### Technical
+
+- **Responsive Design**: Screenshots now automatically adapt to available screen width with optimal column count
+
 ## [3.2.0] - 2026-01-07
 
 ### Added
