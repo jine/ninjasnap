@@ -47,7 +47,6 @@ export default function Home() {
   const [userManuallyChangedUA, setUserManuallyChangedUA] = useState(false);
   const [userManuallyChangedResolution, setUserManuallyChangedResolution] =
     useState(false);
-  // eslint-disable-next-line no-undef
   const errorRef = useRef<HTMLDivElement>(null);
 
   // Auto-switch user agent based on resolution
@@ -116,7 +115,6 @@ export default function Home() {
       return false;
     }
     try {
-      // eslint-disable-next-line no-undef
       new URL(value);
       setError('');
       return true;
@@ -188,7 +186,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
-      <div className="container mx-auto px-4 py-12 max-w-6xl">
+      <div className="mx-auto px-4 py-12 max-w-3xl">
         <Header />
 
         <FormCard>

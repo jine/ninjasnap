@@ -32,7 +32,7 @@ export const ScreenshotGrid = ({ screenshots }: ScreenshotGridProps) => {
         🖼️ Previous Screenshots
       </h2>
       <div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6"
         style={{ gap: 'var(--space-8)' }}
       >
         {screenshots.map((screenshot) => (
