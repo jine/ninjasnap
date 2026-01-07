@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -8,13 +10,14 @@ export default function Home() {
   const [userAgent, setUserAgent] = useState(
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
   );
-  const [enableAdblock, setEnableAdblock] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [userManuallyChangedUA, setUserManuallyChangedUA] = useState(false);
   const [userManuallyChangedResolution, setUserManuallyChangedResolution] =
     useState(false);
+  const [screenshots, setScreenshots] = useState<any[]>([]);
   // eslint-disable-next-line no-undef
   const errorRef = useRef<HTMLDivElement>(null);
 
@@ -63,6 +66,14 @@ export default function Home() {
     }
   }, [error]);
 
+  // Load previous screenshots
+  useEffect(() => {
+    fetch('/api/screenshots')
+      .then((res) => res.json())
+      .then((data) => setScreenshots(data))
+      .catch((err) => console.error('Failed to load screenshots:', err));
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!url) return;
@@ -76,15 +87,29 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url, resolution, userAgent, enableAdblock }),
+        body: JSON.stringify({ url, resolution, userAgent }),
       });
 
       if (!response.ok) {
         throw new Error('Failed to take screenshot');
       }
 
-      const data = await response.json();
-      window.location.href = `/screenshot/${data.id}`;
+      console.log('Response ok:', response.ok);
+      console.log('Response status:', response.status);
+      const text = await response.text();
+      console.log('Response text:', text);
+      try {
+        const data = JSON.parse(text);
+        console.log('Parsed data:', data);
+        if (!data.id) {
+          setError('Invalid response from server: no id');
+          return;
+        }
+        window.location.href = `/screenshot/${data.id}`;
+      } catch (e) {
+        console.log('JSON parse error:', e);
+        setError('Error parsing response. Please try again.');
+      }
     } catch (err) {
       setError('Error taking screenshot. Please try again.');
       console.error(err);
@@ -321,33 +346,6 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="flex items-center">
-          <input
-            id="adblock-checkbox"
-            type="checkbox"
-            checked={enableAdblock}
-            onChange={(e) => setEnableAdblock(e.target.checked)}
-            disabled={loading}
-            className="h-4 w-4 text-[#FF0000] bg-[#1A1A1A] border-[#808080] rounded focus:ring-[#FF0000] focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-describedby="adblock-help"
-          />
-          <label
-            htmlFor="adblock-checkbox"
-            className="ml-2 block text-sm text-[#FFFFFF] cursor-pointer"
-            style={{
-              fontFamily: "'Noto Sans', sans-serif",
-              fontSize: '12px',
-              textTransform: 'uppercase',
-            }}
-          >
-            Enable ad blocker
-          </label>
-          <p id="adblock-help" className="sr-only">
-            When enabled, blocks advertisements and tracking scripts during
-            screenshot capture
-          </p>
-        </div>
-
         <button
           type="submit"
           disabled={loading || !url.trim()}
@@ -435,6 +433,48 @@ export default function Home() {
         >
           {error}
         </div>
+      )}
+
+      {/* Previous Screenshots */}
+      {screenshots.length > 0 && (
+        <section className="mt-12" aria-labelledby="screenshots-heading">
+          <h2
+            id="screenshots-heading"
+            className="text-2xl font-bold text-center mb-6 text-emerald-400"
+            style={{ fontFamily: "'Noto Sans', sans-serif" }}
+          >
+            🖼️ Previous Screenshots
+          </h2>
+          <div className="flex flex-wrap gap-4 justify-center">
+            {screenshots.map((screenshot) => (
+              <Link
+                key={screenshot.id}
+                href={`/screenshot/${screenshot.id}`}
+                className="block bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-200 border border-gray-700 max-w-[600px]"
+              >
+                <Image
+                  src={screenshot.url}
+                  alt={`Screenshot ${screenshot.id}`}
+                  width={600}
+                  height={400}
+                  unoptimized
+                  className="w-full h-auto max-h-[400px] object-cover"
+                />
+                <div className="p-3">
+                  <p
+                    className="text-sm text-gray-300 truncate"
+                    title={screenshot.id}
+                  >
+                    {screenshot.id}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {new Date(screenshot.createdAt).toLocaleString()}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
       )}
 
       {/* Footer */}

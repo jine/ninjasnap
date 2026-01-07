@@ -33,7 +33,6 @@ export interface ScreenshotOptions {
   waitUntil?: 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
   resolution?: ScreenshotResolution;
   userAgent?: UserAgent;
-  enableAdblock?: boolean;
   timeout?: number;
 }
 
@@ -49,7 +48,6 @@ export async function takeScreenshot(
     waitUntil = 'networkidle2',
     resolution,
     userAgent,
-    enableAdblock = false,
     timeout = 30000,
   } = options;
 
@@ -74,13 +72,6 @@ export async function takeScreenshot(
       throw new Error('Failed to acquire browser from pool');
     }
     page = await browser.newPage();
-
-    // Add adblock extension if enabled
-    if (enableAdblock) {
-      // Note: In production, you'd download and provide the uBlock Origin extension path
-      // For now, we'll skip extension loading as it requires additional setup
-      console.log('Adblock requested but extension loading not implemented yet');
-    }
 
     // Set user agent if provided
     if (userAgent) {

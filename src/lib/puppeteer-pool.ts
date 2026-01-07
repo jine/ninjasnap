@@ -101,6 +101,7 @@ export class PuppeteerPool {
       '--disable-renderer-backgrounding',
       '--disable-features=TranslateUI',
       '--disable-ipc-flooding-protection',
+      '--load-extension=/app/extensions/ublock',
     ];
 
     return await puppeteer.launch({

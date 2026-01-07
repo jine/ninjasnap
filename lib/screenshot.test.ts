@@ -10,11 +10,9 @@ describe('Screenshot Types', () => {
       resolution: '1920x1080',
       userAgent:
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      enableAdblock: true,
     };
     expect(options).toBeDefined();
     expect(options.url).toBe('https://example.com');
-    expect(options.enableAdblock).toBe(true);
   });
 
   it('should accept all valid UserAgent values', () => {
@@ -35,7 +33,6 @@ describe('Screenshot Types', () => {
         outputPath: '/tmp/test.png',
         resolution: '1920x1080',
         userAgent: userAgent,
-        enableAdblock: false,
       };
       expect(options.userAgent).toBe(userAgent);
     });

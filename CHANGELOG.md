@@ -5,6 +5,27 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.3] - 2026-01-07
+
+### Added
+
+- **Screenshot Gallery**: Added responsive grid displaying all previous screenshots with auto-fit layout, max width 600px, and max height 400px with aspect ratio cropping
+- **Ad Blocking**: Implemented uBlock Origin extension for comprehensive ad and tracker blocking in all screenshot captures
+- **API Enhancement**: Added /api/screenshots endpoint for listing screenshots with creation timestamps
+- **HTTP Support**: Disabled HSTS to allow HTTP access and prevent browser HTTPS enforcement
+
+### Fixed
+
+- **Next.js Compatibility**: Fixed params handling for Next.js 16 async params in dynamic routes
+- **Image Loading**: Resolved Next.js Image component issues with local screenshots using unoptimized loading
+- **Path Resolution**: Fixed screenshot file output paths for production builds
+- **UI Components**: Implemented Next.js Image and Link components throughout the application
+
+### Performance
+
+- **Image Optimization**: Used unoptimized Image components for direct serving of screenshot files
+- **Grid Layout**: Implemented flex-based auto-fit grid for responsive screenshot display
+
 ## [2.0.2] - 2026-01-07
 
 ### Performance

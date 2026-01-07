@@ -100,5 +100,4 @@ export const EnhancedScreenshotRequestSchema = z.object({
       'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/18.0 Chrome/120.0.0.0 Mobile Safari/537.36',
     ] as const satisfies readonly UserAgent[])
     .optional(),
-  enableAdblock: z.boolean().optional(),
 });

@@ -1,12 +1,12 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
 
-interface PageProps {
-  params: { id: string };
-}
-
-export default function ScreenshotPage({ params }: PageProps) {
-  const { id } = params;
+export default async function ScreenshotPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-gray-800 rounded-lg shadow-2xl border border-gray-700">
@@ -17,13 +17,8 @@ export default function ScreenshotPage({ params }: PageProps) {
         <Image
           src={`/screenshots/${id}.png`}
           alt="NinjaSnap Screenshot"
-          width={1280}
-          height={720}
+          unoptimized
           className="max-w-full h-auto rounded shadow-lg border border-gray-600"
-          priority
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAoACgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEB//EACUQAAIBAwMEAwEBAAAAAAAAAAECAwAEEQUSITFBURNhcZEigf/EABUBAFEAAAAAAAAAAAAAAAAAAAH/xAAVEQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEQMRAD8A4+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/2Q=="
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
         />
       </div>
       <div className="text-center mt-6">

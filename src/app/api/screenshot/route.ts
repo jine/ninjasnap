@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import { EnhancedScreenshotRequestSchema } from '../../../lib/validation';
@@ -14,9 +14,6 @@ import {
 } from '../../../lib/api-response';
 import { screenshotQueue } from '../../../lib/screenshot-queue';
 import { performanceMonitor } from '../../../lib/performance-monitor';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Simple in-memory rate limiting (for demo - use Redis in production)
 const rateLimit = new Map<string, { count: number; resetTime: number }>();
@@ -73,25 +70,22 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = EnhancedScreenshotRequestSchema.parse(body);
 
-    const {
-      url,
-      resolution = '1280x720',
-      userAgent,
-      enableAdblock = false,
-    } = validatedData;
+    const { url, resolution = '1280x720', userAgent } = validatedData;
 
     const id = uuidv4();
     const outputPath = path.join(
-      __dirname,
-      '../../../../../public/screenshots',
+      process.cwd(),
+      'public/screenshots',
       `${id}.png`,
     );
+
+    // Ensure directory exists
+    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 
     requestLogger.info('Adding screenshot to queue', {
       url,
       resolution,
       userAgent,
-      enableAdblock,
       screenshotId: id,
     });
 
@@ -106,7 +100,6 @@ export async function POST(request: NextRequest) {
 
         const screenshotOptions: any = {
           resolution,
-          enableAdblock,
           timeout: config.SCREENSHOT_TIMEOUT,
         };
         if (userAgent) {

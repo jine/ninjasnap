@@ -11,7 +11,11 @@ const nextConfig = {
 
   // Optimize chunk splitting
   experimental: {
-    optimizePackageImports: ['puppeteer-extra', 'puppeteer-extra-plugin-stealth', 'zod'],
+    optimizePackageImports: [
+      'puppeteer-extra',
+      'puppeteer-extra-plugin-stealth',
+      'zod',
+    ],
     optimizeCss: true,
   },
 
@@ -36,7 +40,6 @@ const nextConfig = {
               "frame-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
-              "upgrade-insecure-requests"
             ].join('; '),
           },
           {
@@ -58,6 +61,10 @@ const nextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=0',
           },
         ],
       },
