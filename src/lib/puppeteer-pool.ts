@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer-extra';
 import { Browser } from 'puppeteer';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+// import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 interface PooledBrowser {
   browser: Browser;
@@ -82,7 +82,7 @@ export class PuppeteerPool {
    * Create a new browser instance
    */
   private async createBrowser(): Promise<Browser> {
-    puppeteer.use(StealthPlugin());
+    // puppeteer.use(StealthPlugin());  // Temporarily disabled due to bundling issues
 
     const launchArgs = [
       '--no-sandbox',
@@ -91,10 +91,16 @@ export class PuppeteerPool {
       '--disable-accelerated-2d-canvas',
       '--no-first-run',
       '--no-zygote',
-      '--single-process', // for Docker
+      // '--single-process', // Removed for Docker
       '--disable-gpu',
+      '--disable-software-rasterizer',
       '--disable-web-security', // Allow cross-origin requests
       '--disable-features=VizDisplayCompositor',
+      '--disable-background-timer-throttling',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-renderer-backgrounding',
+      '--disable-features=TranslateUI',
+      '--disable-ipc-flooding-protection',
     ];
 
     return await puppeteer.launch({

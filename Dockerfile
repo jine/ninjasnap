@@ -34,8 +34,8 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 
 # Download and extract uBlock Origin extension
 RUN mkdir -p /app/extensions/ublock && \
-    wget -O /tmp/ublock.zip "https://github.com/gorhill/uBlock/releases/download/1.56.0/uBlock0_1.56.0.chromium.zip" && \
-    unzip /tmp/ublock.zip -d /app/extensions/ublock && \
+    wget -q -O /tmp/ublock.zip "https://github.com/gorhill/uBlock/releases/download/1.56.0/uBlock0_1.56.0.chromium.zip" && \
+    unzip -q /tmp/ublock.zip -d /app/extensions/ublock && \
     rm /tmp/ublock.zip
 
 RUN addgroup --system --gid 1001 nodejs
