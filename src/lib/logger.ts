@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import winston from 'winston';
 
 /**
  * Log levels
@@ -9,6 +10,32 @@ export enum LogLevel {
   INFO = 'info',
   DEBUG = 'debug',
 }
+
+// Create winston logger
+const winstonLogger = winston.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json(),
+  ),
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple(),
+      ),
+    }),
+    new winston.transports.File({
+      filename: '/app/logs/ninjasnap.log',
+      format: winston.format.json(),
+    }),
+    new winston.transports.File({
+      filename: '/app/logs/ninjasnap-error.log',
+      level: 'error',
+      format: winston.format.json(),
+    }),
+  ],
+});
 
 /**
  * Structured log entry interface
@@ -66,8 +93,7 @@ export class Logger {
       ...extra,
     };
 
-    // In production, you might want to use a proper logging service
-    console.log(JSON.stringify(entry));
+    winstonLogger.log(level, message, entry);
   }
 
   info(message: string, extra?: Partial<LogEntry>): void {

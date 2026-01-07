@@ -8,7 +8,7 @@ export function ServiceWorkerRegistration() {
       navigator.serviceWorker
         .register('/sw.js')
         .then((registration) => {
-          console.log('Service Worker registered:', registration.scope);
+          // Service Worker registered
 
           // Handle updates
           registration.addEventListener('updatefound', () => {
@@ -20,21 +20,17 @@ export function ServiceWorkerRegistration() {
                   navigator.serviceWorker.controller
                 ) {
                   // New content is available, notify user
-                  console.log(
-                    'New content is available and will be used when all tabs are closed.',
-                  );
                 }
               });
             }
           });
         })
-        .catch((error) => {
-          console.error('Service Worker registration failed:', error);
+        .catch(() => {
+          // Service Worker registration failed
         });
 
       // Handle controller change (when SW takes control)
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        console.log('Service Worker controller changed, reloading page...');
         window.location.reload();
       });
     }

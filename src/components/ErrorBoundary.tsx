@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { logger } from '../lib/logger';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -33,11 +32,8 @@ export class ErrorBoundary extends React.Component<
   override componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     this.setState({ errorInfo });
 
-    // Log the error with structured logging
-    logger.error('React Error Boundary caught an error', error, {
-      componentStack: errorInfo.componentStack || undefined,
-      errorBoundary: 'ErrorBoundary',
-    });
+    // Log the error
+    console.error('React Error Boundary caught an error', error, errorInfo);
   }
 
   handleRetry = () => {

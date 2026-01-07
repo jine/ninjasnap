@@ -121,6 +121,7 @@ export default function Home() {
       return false;
     }
     try {
+      // eslint-disable-next-line no-undef
       new URL(value);
       setError('');
       return true;

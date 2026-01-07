@@ -44,7 +44,6 @@ export function useOptimisticScreenshot() {
       // Replace optimistic update with real result
       startTransitionOptimistic(() => {
         // In a real app, you'd update the state with the actual result
-        console.log('Screenshot submitted successfully:', result.id);
       });
 
       return result;

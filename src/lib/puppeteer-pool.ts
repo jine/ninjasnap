@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer-extra';
 import { Browser } from 'puppeteer';
 // import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import { logger } from './logger';
 
 interface PooledBrowser {
   browser: Browser;
@@ -174,13 +175,13 @@ export const puppeteerPool = new PuppeteerPool();
 // Graceful shutdown
 if (typeof process !== 'undefined') {
   process.on('SIGINT', async () => {
-    console.log('Shutting down Puppeteer pool...');
+    logger.info('Shutting down Puppeteer pool...');
     await puppeteerPool.closeAll();
     process.exit(0);
   });
 
   process.on('SIGTERM', async () => {
-    console.log('Shutting down Puppeteer pool...');
+    logger.info('Shutting down Puppeteer pool...');
     await puppeteerPool.closeAll();
     process.exit(0);
   });

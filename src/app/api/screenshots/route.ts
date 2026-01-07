@@ -1,21 +1,22 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { logger } from '../../../lib/logger';
 
 export async function GET() {
   try {
     const screenshotsDir = path.join(process.cwd(), 'public', 'screenshots');
 
-    console.log('Reading screenshots from:', screenshotsDir);
+    logger.debug('Reading screenshots from: ' + screenshotsDir);
 
     // Ensure directory exists
     if (!fs.existsSync(screenshotsDir)) {
-      console.log('Screenshots directory does not exist:', screenshotsDir);
+      logger.warn('Screenshots directory does not exist: ' + screenshotsDir);
       return NextResponse.json([]);
     }
 
     const allFiles = fs.readdirSync(screenshotsDir);
-    console.log('All files in directory:', allFiles);
+    logger.debug('All files in directory: ' + allFiles.join(', '));
 
     const files = allFiles
       .filter((file) => file.endsWith('.png'))
@@ -33,15 +34,17 @@ export async function GET() {
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       ); // Newest first
 
-    console.log(
-      'Screenshots found:',
-      files.length,
-      files.map((f) => f.id),
+    logger.info(
+      'Screenshots found: ' +
+        files.length +
+        ' [' +
+        files.map((f) => f.id).join(', ') +
+        ']',
     );
 
     return NextResponse.json(files);
   } catch (error) {
-    console.error('Error reading screenshots:', error);
+    logger.error('Error reading screenshots', error as Error);
     return NextResponse.json(
       { error: 'Failed to read screenshots' },
       { status: 500 },
