@@ -5,6 +5,36 @@ All notable changes to NinjaSnap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-01-07
+
+### Added
+
+- **🚀 Phase 3: Modern React Features & User Experience Enhancements**
+- React 19 features: useOptimistic hook for optimistic UI updates
+- Advanced custom hooks: performance monitoring, caching, debouncing, intersection observer
+- Suspense integration for concurrent data fetching patterns
+- Comprehensive accessibility improvements with ARIA labels and screen reader support
+- Semantic HTML structure with proper landmarks and keyboard navigation
+- Live regions for status updates and error announcements
+- Progressive enhancement for assistive technology users
+- Type-safe custom hooks with full TypeScript support
+
+### Accessibility
+
+- WCAG 2.1 AA compliance improvements
+- Screen reader compatibility with JAWS, NVDA, and VoiceOver
+- Keyboard-only navigation support
+- High contrast mode compatibility
+- Focus management and visual indicators
+- Error announcements and form validation feedback
+
+### Performance
+
+- Optimistic UI updates reducing perceived latency
+- Advanced caching hooks with TTL management
+- Debounced search and input handling
+- Intersection observer for lazy loading optimization
+
 ## [1.0.0] - 2026-01-07
 
 ### Added
