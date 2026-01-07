@@ -2,10 +2,8 @@ export default {
   preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
   extensionsToTreatAsEsm: ['.ts'],
-  globals: {
-    'ts-jest': {
-      useESM: true,
-    },
+  transform: {
+    '^.+\\.ts$': ['ts-jest', { useESM: true }],
   },
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
@@ -21,8 +19,9 @@ export default {
     '<rootDir>/src/**/*.test.ts',
     '<rootDir>/lib/**/*.test.ts',
   ],
-  testPathIgnorePatterns: [
-    '<rootDir>/.next/',
-    '<rootDir>/node_modules/',
-  ],
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+  // Handle async operations and cleanup
+  forceExit: true,
+  detectOpenHandles: true,
+  testTimeout: 30000,
 };
